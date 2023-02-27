@@ -8,16 +8,16 @@ repos:
         types: [python]
         require_serial: true
       - id: check-added-large-files
-        name: Check for added large files
+        name: check for added large files
         entry: check-added-large-files
         language: system
       - id: check-toml
-        name: Check Toml
+        name: check toml files
         entry: check-toml
         language: system
         types: [toml]
       - id: check-yaml
-        name: Check Yaml
+        name: check yaml files
         entry: check-yaml
         language: system
         types: [yaml]
@@ -28,7 +28,7 @@ repos:
         types: [python]
         stages: [manual]
       - id: end-of-file-fixer
-        name: Fix End of Files
+        name: fix end of files
         entry: end-of-file-fixer
         language: system
         types: [text]
@@ -55,7 +55,7 @@ repos:
         types: [python]
         args: [--py37-plus]
       - id: trailing-whitespace
-        name: Trim Trailing Whitespace
+        name: remove trailing whitespace
         entry: trailing-whitespace-fixer
         language: system
         types: [text]
