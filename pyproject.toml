@@ -14,8 +14,7 @@ classifiers = ["Development Status :: 2 - Pre-Alpha"]
 Changelog = "https://github.com/FireSci/landfire/releases"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4.0"
-click = ">=8.0.1"
+python = ">=3.8,<4.0"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
@@ -30,6 +29,8 @@ flake8-rst-docstrings = ">=0.2.5"
 furo = ">=2021.11.12"
 isort = ">=5.10.1"
 mypy = ">=0.930"
+nox = "^2022.11.21"
+nox-poetry = "^1.0.2"
 pep8-naming = ">=0.12.1"
 pre-commit = ">=2.16.0"
 pre-commit-hooks = ">=4.1.0"
@@ -42,9 +43,6 @@ sphinx-click = ">=3.0.2"
 typeguard = ">=2.13.3"
 xdoctest = { extras = ["colors"], version = ">=0.15.10" }
 myst-parser = { version = ">=0.16.1" }
-
-[tool.poetry.scripts]
-landfire = "landfire.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

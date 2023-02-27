@@ -1,12 +1,8 @@
-"""Command-line interface."""
-import click
+"""Landfire."""
 
 
-@click.command()
-@click.version_option()
-def main() -> None:
-    """Landfire."""
+class Landfire:
+    """Accessor class for LANDFIRE."""
 
-
-if __name__ == "__main__":
-    main(prog_name="landfire")  # pragma: no cover
+    def __init__(self) -> None:
+        pass
