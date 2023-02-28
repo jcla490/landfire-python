@@ -1,11 +1,16 @@
 """Landfire."""
 
+from typing import List
+
+from attrs import define
+
+
 __version__ = "0.0.0"
 __all__ = ["landfire"]
 
 
+@define
 class Landfire:
     """Accessor class for LANDFIRE."""
 
-    def __init__(self) -> None:
-        pass
+    bbox: List[float]

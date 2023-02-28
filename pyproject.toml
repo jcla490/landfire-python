@@ -15,6 +15,8 @@ Changelog = "https://github.com/FireSci/landfire/releases"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
+attrs = "^22.2.0"
+pydantic = "^1.10.5"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
