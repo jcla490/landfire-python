@@ -1,4 +1,7 @@
-"""Product models."""
+"""Product models.
+
+Adopted from https://lfps.usgs.gov/helpdocs/productstable.html.
+"""
 from typing import List
 from typing import Optional
 
