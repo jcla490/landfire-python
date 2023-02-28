@@ -14,3 +14,8 @@ class Landfire:
     """Accessor class for LANDFIRE."""
 
     bbox: List[float]
+
+
+# CRS conversion helper?
+# bounding box or file helper
+# ready made layer lists for common workflows (i.e., flammap)
