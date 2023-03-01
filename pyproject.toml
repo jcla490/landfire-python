@@ -14,9 +14,10 @@ classifiers = ["Development Status :: 2 - Pre-Alpha"]
 Changelog = "https://github.com/FireSci/landfire/releases"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = ">=3.8,<3.12"
 attrs = "^22.2.0"
 pydantic = "^1.10.5"
+geojson = "^3.0.1"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
