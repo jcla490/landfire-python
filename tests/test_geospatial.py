@@ -2,7 +2,7 @@
 import geojson
 import pytest
 
-from landfire.utils import polygon_to_bbox
+from landfire.geospatial import polygon_to_bbox
 
 
 @pytest.fixture
