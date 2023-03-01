@@ -3,6 +3,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Optional
 
+from fiona.errors import DriverError
+
 
 try:
     import geojson
@@ -25,21 +27,24 @@ class GeospatialDriver(str, Enum):
     flatgeobuf = "FlatGeobuf"
 
 
-def polygon_to_bbox(aoi_polygon: geojson.Polygon) -> str:
+def get_bbox_from_polygon(aoi_polygon: geojson.Polygon, crs: str = "4326") -> str:
     """Given a GeoJSON polygon, convert to a string bounding box with form `min_x, min_y, max_x, max_y`.
 
     Args:
         aoi_polygon: GeoJSON Polygon object representing your area of interest.
+        crs: Coordinate reference system in well-known integer ID (WKID) format (EPSG). Defaults to `4326` or WGS84. See https://epsg.io for a full list of EPSG WKIDs.
 
     Returns:
-        bounding box of the polygon as a string.
+        bounding box of the GeoJSON Polygon object as a string.
     """
-    gdf = gpd.GeoDataFrame(index=[0], geometry=[aoi_polygon]).to_crs(4326)
+    gdf = gpd.GeoDataFrame(index=[0], crs=crs, geometry=[aoi_polygon]).to_crs(4326)
 
     return " ".join(str(x) for x in gdf.total_bounds)
 
 
-def get_bbox_from_file(aoi_file_path: str, driver: Optional[GeospatialDriver]) -> str:
+def get_bbox_from_file(
+    aoi_file_path: str, driver: Optional[GeospatialDriver] = None
+) -> str:
     """Given a particular file, convert all features to one string bounding box with form `min_x, min_y, max_x, max_y`. CRS will be discovered from file automatically and converted to 4326 (WGS84) if needed.
 
     Supported file drivers are found in enum GeospatialDriver and are:
@@ -58,13 +63,15 @@ def get_bbox_from_file(aoi_file_path: str, driver: Optional[GeospatialDriver]) -
         bounding box of the as a string.
 
     Raises:
-        RuntimeError if provided path is not able to be parsed as a Path object.
+        RuntimeError if provided path is not able to be parsed as a Path object or if provided driver is not a valid member of GeospatialDriver enum.
+
     """
     # Validate user provided path
     try:
         fpath = Path(aoi_file_path)
-    except ValueError:
-        raise RuntimeError(f"{aoi_file_path} is not a valid path!")
+        assert fpath.exists()
+    except (ValueError, AssertionError):
+        raise RuntimeError(f"`{aoi_file_path}` is not a valid path.")
 
     # Validate user provided driver
     if driver:
@@ -72,12 +79,16 @@ def get_bbox_from_file(aoi_file_path: str, driver: Optional[GeospatialDriver]) -
             assert driver in GeospatialDriver
         except AssertionError:
             raise RuntimeError(
-                f"{driver} is not a valid driver type! Supported drivers are {'.'.join([e for e in GeospatialDriver])}"
+                f"`{driver}` is not a valid driver type! Supported drivers are {'.'.join([e for e in GeospatialDriver])}."
             )
 
-        # Read file into gdf, leverage user provided driver
-        gdf: gpd.GeoDataFrame = gpd.read_file(fpath, driver=driver)
-
+        try:
+            # Read file into gdf, leverage user provided driver
+            gdf: gpd.GeoDataFrame = gpd.read_file(fpath, driver=driver)
+        except DriverError:
+            raise DriverError(
+                f"Unable to read file with driver `{driver}`. Are you sure this is the correct driver for this file?"
+            )
     else:
         # Try to infer driver
         gdf = gpd.read_file(fpath)

@@ -19,7 +19,7 @@ class Landfire:
     """Accessor class for LANDFIRE.
 
     Args:
-        bbox: Bounding box with form `min_x min_y max_x max_y`. For example, `-107.70894965 46.56799094 -106.02718124 47.34869094`. Use geospatial util func `polygon_to_bbox()` to convert a GeoJSON polygon object or get_bbox_from_file() to convert a file to a suitable bounding box if needed.
+        bbox: Bounding box with form `min_x min_y max_x max_y`. For example, `-107.70894965 46.56799094 -106.02718124 47.34869094`. Use geospatial util func `get_bbox_from_polygon()` to convert a GeoJSON Polygon object or get_bbox_from_file() to convert a file to a suitable bounding box if needed.
         output_crs: Output coordinate reference system in well-known integer ID (WKID) format (EPSG). Defaults to `4326` or WGS84. See https://epsg.io for a full list of EPSG WKIDs.
         resample_res: Resolution in meters for resampling output data. Defaults to 30 meters. Acceptable values are 30 to 9999 meters.
     """
@@ -57,7 +57,7 @@ class Landfire:
     #     }
 
 
-Landfire("test", "4326", 1)
+# Landfire("test", "4326", 1)
 
 # CRS conversion helper?
 # bounding box or file helper
