@@ -15,9 +15,10 @@ Changelog = "https://github.com/FireSci/landfire/releases"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
-attrs = "^22.2.0"
-pydantic = "^1.10.5"
-geojson = "^3.0.1"
+attrs = ">=22.2.0"
+pydantic = ">=1.10"
+geojson = { version = ">=3.0.0", optional = true }
+geopandas = { version = ">=0.12.0", optional = true }
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
@@ -46,6 +47,10 @@ sphinx-click = ">=3.0.2"
 typeguard = ">=2.13.3"
 xdoctest = { extras = ["colors"], version = ">=0.15.10" }
 myst-parser = { version = ">=0.16.1" }
+
+[tool.poetry.extras]
+geospatial = ["geopandas", "geojson"]
+
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
