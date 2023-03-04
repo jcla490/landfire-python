@@ -4,6 +4,8 @@ from attrs import field
 from attrs import frozen
 from attrs import validators
 
+from landfire.search import ProductSearch
+
 
 __version__ = "0.0.0"
 __all__ = ["landfire"]
@@ -27,6 +29,9 @@ class Landfire:
     bbox: str = field(validator=validators.instance_of(str))
     output_crs: str = field(default="4326", validator=validators.instance_of(str))
     resample_res: int = field(default=30, validator=validators.instance_of(int))
+
+    # instantiate products for searching
+    search = ProductSearch()
 
     @resample_res.validator
     def resample_range_check(self, attribute: AttrsInstance, value: int) -> None:
@@ -57,12 +62,10 @@ class Landfire:
     #     }
 
 
-# Landfire("test", "4326", 1)
+lf = Landfire("1")
+lf.search.search_products
 
-# CRS conversion helper?
-# bounding box or file helper
 # ready made layer lists for common workflows (i.e., flammap), minimum set of layers
 #  latest elev, asp, slope
-# searching layers
 # export single bands instead of multi-band helper option would be dank
 # name them after layer name

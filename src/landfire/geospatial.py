@@ -28,7 +28,7 @@ class GeospatialDriver(str, Enum):
 
 
 def get_bbox_from_polygon(aoi_polygon: geojson.Polygon, crs: str = "4326") -> str:
-    """Given a GeoJSON polygon, convert to a string bounding box with form `min_x, min_y, max_x, max_y`.
+    """Given a GeoJSON polygon, convert to a string bounding box with form `min_x, min_y, max_x, max_y` in CRS 4326 (WGS84).
 
     Args:
         aoi_polygon: GeoJSON Polygon object representing your area of interest.
@@ -64,6 +64,7 @@ def get_bbox_from_file(
 
     Raises:
         RuntimeError if provided path is not able to be parsed as a Path object or if provided driver is not a valid member of GeospatialDriver enum.
+        DriverError if driver and file type do not match.
 
     """
     # Validate user provided path

@@ -3,7 +3,7 @@
 Adopted from https://lfps.usgs.gov/helpdocs/productstable.html.
 """
 from typing import List
-from typing import Optional
+from typing import Union
 
 from pydantic import BaseModel
 
@@ -39,10 +39,10 @@ class Product(BaseModel):
     name: str
     code: str
     theme: ProductTheme
-    availability: Optional[List[ProductAvailability]]
+    availability: List[Union[ProductAvailability, None]]
 
 
-products: List[Product] = [
+PRODUCTS: List[Product] = [
     Product(
         name="disturbance",
         code="DistYear",
@@ -235,7 +235,7 @@ products: List[Product] = [
         name="fuel disturbance 2021",
         code="FDistYear",
         theme=ProductTheme.disturbance,
-        availability=None,
+        availability=[],
     ),
     Product(
         name="fuel disturbance 2022",
