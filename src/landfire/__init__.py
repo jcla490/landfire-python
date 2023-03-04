@@ -1,8 +1,5 @@
 """Landfire."""
-from attrs import AttrsInstance
-from attrs import field
-from attrs import frozen
-from attrs import validators
+from attrs import AttrsInstance, field, frozen, validators
 
 from landfire.search import ProductSearch
 

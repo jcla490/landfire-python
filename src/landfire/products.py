@@ -2,14 +2,11 @@
 
 Adopted from https://lfps.usgs.gov/helpdocs/productstable.html.
 """
-from typing import List
-from typing import Union
+from typing import List, Union
 
 from pydantic import BaseModel
 
-from landfire.enums import ProductRegion
-from landfire.enums import ProductTheme
-from landfire.enums import ProductVersion
+from landfire.enums import ProductRegion, ProductTheme, ProductVersion
 
 
 class ProductAvailability(BaseModel):

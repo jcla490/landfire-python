@@ -1,12 +1,8 @@
 """Search class for obtaining product layers."""
-from typing import List
-from typing import Optional
+from typing import List, Optional
 
-from landfire.enums import ProductRegion
-from landfire.enums import ProductTheme
-from landfire.enums import ProductVersion
-from landfire.products import PRODUCTS
-from landfire.products import Product
+from landfire.enums import ProductRegion, ProductTheme, ProductVersion
+from landfire.products import PRODUCTS, Product
 
 
 class ProductSearch:

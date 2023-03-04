@@ -3,9 +3,11 @@ import geojson
 import pytest
 from fiona.errors import DriverError
 
-from landfire.geospatial import GeospatialDriver
-from landfire.geospatial import get_bbox_from_file
-from landfire.geospatial import get_bbox_from_polygon
+from landfire.geospatial import (
+    GeospatialDriver,
+    get_bbox_from_file,
+    get_bbox_from_polygon,
+)
 
 
 @pytest.fixture
