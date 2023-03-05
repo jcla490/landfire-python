@@ -1,8 +1,8 @@
 """ProductSearch tests."""
 import pytest
 
-from landfire.enums import ProductRegion, ProductTheme, ProductVersion
-from landfire.search import ProductSearch
+from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
+from landfire.product.search import ProductSearch
 
 
 PRODUCT_LIST_LEN = 76

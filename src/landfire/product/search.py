@@ -3,8 +3,8 @@ from typing import List, Optional
 
 from attr import define
 
-from landfire.enums import ProductRegion, ProductTheme, ProductVersion
-from landfire.products import PRODUCTS, Product
+from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
+from landfire.product.models import PRODUCTS, Product
 
 
 @define

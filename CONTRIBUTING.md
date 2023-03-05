@@ -49,14 +49,6 @@ Install the package with development requirements:
 poetry install
 ```
 
-You can now run an interactive Python session,
-or the command-line interface:
-
-```console
-poetry run python
-poetry run landfire
-```
-
 [poetry]: https://python-poetry.org/
 [nox]: https://nox.thea.codes/
 [nox-poetry]: https://nox-poetry.readthedocs.io/
@@ -79,6 +71,8 @@ You can also run a specific Nox session.
 For example, invoke the unit test suite like this:
 
 ```console
+nox -s tests
+# or
 nox --session=tests
 ```
 
@@ -94,10 +88,8 @@ Open a [pull request] to submit changes to this project.
 Your pull request needs to meet the following guidelines for acceptance:
 
 - The Nox test suite must pass without errors and warnings.
-- Include unit tests. This project maintains 85% code coverage.
+- Include unit tests. This project maintains 95% code coverage.
 - If your changes add functionality, update the documentation accordingly.
-
-Feel free to submit early, though—we can always iterate on this.
 
 To run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "landfire"
-version = "0.0.0"
+version = "0.1.0"
 description = "Landfire"
 authors = ["FireSci <support@firesci.io>"]
 license = "MIT"
@@ -62,7 +62,7 @@ source = ["landfire", "tests"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 85
+fail_under = 95
 
 [tool.isort]
 profile = "black"

@@ -6,7 +6,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from landfire.enums import ProductRegion, ProductTheme, ProductVersion
+from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
 
 
 class ProductAvailability(BaseModel):
@@ -21,6 +21,11 @@ class ProductAvailability(BaseModel):
     version: ProductVersion
     regions: List[ProductRegion]
     layers: List[str]
+
+    class Config:
+        """Pydantic model config."""
+
+        allow_mutation = False
 
 
 class Product(BaseModel):
@@ -37,6 +42,11 @@ class Product(BaseModel):
     code: str
     theme: ProductTheme
     availability: List[ProductAvailability]
+
+    class Config:
+        """Pydantic model config."""
+
+        allow_mutation = False
 
 
 PRODUCTS: List[Product] = [
