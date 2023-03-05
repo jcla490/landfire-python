@@ -2,7 +2,7 @@
 
 Adopted from https://lfps.usgs.gov/helpdocs/productstable.html.
 """
-from typing import List, Union
+from typing import List
 
 from pydantic import BaseModel
 
@@ -36,7 +36,7 @@ class Product(BaseModel):
     name: str
     code: str
     theme: ProductTheme
-    availability: List[Union[ProductAvailability, None]]
+    availability: List[ProductAvailability]
 
 
 PRODUCTS: List[Product] = [
@@ -232,7 +232,13 @@ PRODUCTS: List[Product] = [
         name="fuel disturbance 2021",
         code="FDistYear",
         theme=ProductTheme.disturbance,
-        availability=[],
+        availability=[
+            ProductAvailability(
+                version=ProductVersion.lf_2020,
+                regions=[ProductRegion.US, ProductRegion.AK, ProductRegion.HI],
+                layers=["FDIST2021"],
+            ),
+        ],
     ),
     Product(
         name="fuel disturbance 2022",

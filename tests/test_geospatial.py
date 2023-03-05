@@ -1,4 +1,4 @@
-"""Utils tests."""
+"""Geospatial utils tests."""
 import geojson
 import pytest
 from fiona.errors import DriverError

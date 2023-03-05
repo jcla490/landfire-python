@@ -1,85 +1,125 @@
-"""Search class for obtaining product layers."""
+"""Search class for obtaining product information."""
 from typing import List, Optional
+
+from attr import define
 
 from landfire.enums import ProductRegion, ProductTheme, ProductVersion
 from landfire.products import PRODUCTS, Product
 
 
+@define
 class ProductSearch:
-    """Product Search."""
+    """Facilitates the search of possible LANDFIRE products to download."""
 
-    products = PRODUCTS
+    _products: List[Product] = PRODUCTS
 
-    def __filter_by_name(self, name: List[str]) -> None:
-        """Filter products by name(s)."""
+    def __filter_by_name(self, names: List[str]) -> None:
+        """Filter products by name(s).
+
+        Args:
+            names: List of product names to filter product list by.
+        """
         self._products = [
             product
-            for product in self.products
-            if product.name in [name.lower() for name in name]
+            for product in self._products
+            if product.name in [name.lower() for name in names]
         ]
 
-    def __filter_by_code(self, code: List[str]) -> None:
-        """Filter products by product code(s)."""
+    def __filter_by_code(self, codes: List[str]) -> None:
+        """Filter products by product code(s).
+
+        Args:
+            codes: List of product codes to filter product list by.
+        """
         self._products = [
             product
-            for product in self.products
-            if product.code in [code.lower() for code in code]
+            for product in self._products
+            if product.code in [code for code in codes]
         ]
 
-    def __filter_by_theme(self, theme: List[ProductTheme]) -> None:
-        """Filter products by product theme(s)."""
+    def __filter_by_theme(self, themes: List[ProductTheme]) -> None:
+        """Filter products by product theme(s).
+
+        Args:
+            themes: List of ProductThemes to filter product list by.
+        """
         self._products = [
-            product for product in self.products if product.theme in theme
+            product for product in self._products if product.theme in themes
         ]
 
-    def __filter_by_version(self, version: ProductVersion) -> None:
-        """Filter products by product version."""
-        self._products = [
-            product for product in self.products if product.version == version
-        ]
+    def __filter_by_version(self, versions: List[ProductVersion]) -> None:
+        """Filter products by product version.
 
-    def __filter_by_region(self, region: ProductRegion) -> None:
-        """Filter products by product region."""
-        self._products = [
-            product for product in self.products if product.region == region
-        ]
+        Args:
+            versions: List of ProductVersions to filter product list by.
+        """
+        products = []
+        for product in self._products:
+            for pa in product.availability:
+                if any(v == pa.version for v in versions):
+                    products.append(product)
+        self._products = products
+
+    def __filter_by_region(self, regions: List[ProductRegion]) -> None:
+        """Filter products by product region. Do I like this? No. Does it work? Yes.
+
+        Args:
+            regions: List of ProductRegions to filter product list by.
+        """
+        products = []
+        for product in self._products:
+            for pa in product.availability:
+                if bool(set(regions).intersection(pa.regions)):
+                    products.append(product)
+                    break
+        self._products = products
 
     def __get_final_layers(self) -> List[str]:
-        """Get layers from list of Products remaining."""
+        """Get list of layers from list of Products remaining."""
         layers: List[str] = []
         # Remaining products
         for product in self._products:
             # Availability in product
             for pa in product.availability:
-                # Some products have no availability
-                if pa is not None:
-                    for layer in pa.layers:
-                        layers.append(layer)
-        return layers
+                for layer in pa.layers:
+                    layers.append(layer)
+        # Convert to set to remove duplicates (map_zone, disturbances) that are present across each version. Landfire API has no way of specifying which version to use for these.
+        return list(set(layers))
 
     def search_products(
         self,
         *,
-        name: Optional[List[str]],
-        code: Optional[List[str]],
-        theme: Optional[List[ProductTheme]],
-        version: Optional[List[ProductVersion]],
-        region: Optional[List[ProductRegion]]
+        names: Optional[List[str]] = None,
+        codes: Optional[List[str]] = None,
+        themes: Optional[List[ProductTheme]] = None,
+        versions: Optional[List[ProductVersion]] = None,
+        regions: Optional[List[ProductRegion]] = None,
     ) -> List[Product]:
-        """Search products."""
-        if name:
-            self.__filter_by_name(name)
-        if code:
-            self.__filter_by_code(code)
-        if theme:
-            self.__filter_by_theme(theme)
-        if version:
-            self.__filter_by_version(version)
-        if region:
-            self.__filter_by_region(region)
+        """Search products for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in all products being returned.
 
-        return self.products
+        Args:
+            names: Product names.
+            codes: Product codes.
+            themes: Product themes. See ProductTheme enum.
+            versions: Product versions. See ProductVersion enum.
+            regions: Product regions. See ProductRegion enum.
+
+        Returns:
+            List of matching Products.
+        """
+        if names:
+            self.__filter_by_name(names)
+        if codes:
+            self.__filter_by_code(codes)
+        if themes:
+            self.__filter_by_theme(themes)
+        if versions:
+            self.__filter_by_version(versions)
+        if regions:
+            self.__filter_by_region(regions)
+
+        return self._products
 
     def get_layers(self) -> List[str]:
-        """Get layers from search query."""
+        """Get a list of layers corresponding to final, filtered list of Products."""
         return self.__get_final_layers()

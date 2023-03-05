@@ -1,7 +1,5 @@
 """Landfire."""
-from attrs import AttrsInstance, field, frozen, validators
-
-from landfire.search import ProductSearch
+from attrs import AttrsInstance, define, field, validators
 
 
 __version__ = "0.0.0"
@@ -13,9 +11,9 @@ REQUEST_URL = BASE_URL + "/submitJob?"
 JOB_URL = BASE_URL + "/jobs/"
 
 
-@frozen
+@define(frozen=True)
 class Landfire:
-    """Accessor class for LANDFIRE.
+    """Accessor for LANDFIRE data.
 
     Args:
         bbox: Bounding box with form `min_x min_y max_x max_y`. For example, `-107.70894965 46.56799094 -106.02718124 47.34869094`. Use geospatial util func `get_bbox_from_polygon()` to convert a GeoJSON Polygon object or get_bbox_from_file() to convert a file to a suitable bounding box if needed.
@@ -28,8 +26,6 @@ class Landfire:
     resample_res: int = field(default=30, validator=validators.instance_of(int))
 
     # instantiate products for searching
-    search = ProductSearch()
-
     @resample_res.validator
     def resample_range_check(self, attribute: AttrsInstance, value: int) -> None:
         """Ensure resampling resolution is within allowable range."""
@@ -58,9 +54,6 @@ class Landfire:
     #         "f": "JSON",
     #     }
 
-
-lf = Landfire("1")
-lf.search.search_products
 
 # ready made layer lists for common workflows (i.e., flammap), minimum set of layers
 #  latest elev, asp, slope
