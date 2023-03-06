@@ -1,7 +1,7 @@
 """Search class for obtaining product information."""
 from typing import List, Optional
 
-from attr import define
+from attr import define, field
 
 from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
 from landfire.product.models import PRODUCTS, Product
@@ -11,7 +11,7 @@ from landfire.product.models import PRODUCTS, Product
 class ProductSearch:
     """Facilitates the search of possible LANDFIRE products to download."""
 
-    _products: List[Product] = PRODUCTS
+    _products: List[Product] = field(default=PRODUCTS, init=False)
 
     def __filter_by_name(self, names: List[str]) -> None:
         """Filter products by name(s).
