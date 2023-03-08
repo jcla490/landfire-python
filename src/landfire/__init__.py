@@ -2,7 +2,7 @@
 import logging
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 import requests
 from attrs import AttrsInstance, define, field, validators
@@ -22,7 +22,7 @@ JOB_URL = BASE_URL + "/jobs/"
 logger = logging.getLogger(__name__)
 
 
-@define(frozen=True)
+@define
 class Landfire:
     """Accessor for LANDFIRE data.
 
@@ -33,31 +33,63 @@ class Landfire:
     """
 
     bbox: str = field(validator=validators.instance_of(str))
-    output_crs: str = field(default="4326", validator=validators.instance_of(str))
-    resample_res: int = field(default=30, validator=validators.instance_of(int))
+    output_crs: str = field(
+        default="4326", validator=validators.instance_of(str)
+    )
+    resample_res: int = field(
+        default=30, validator=validators.instance_of(int)
+    )
 
-    # instantiate products for searching
-    search: ProductSearch = ProductSearch()
-    # for validation
-    all_layers: List[str] = search.get_layers()
-    # base param payload
-    base_params: Dict[str, Union[None, str, int]] = {
-        "Layer_List": None,
-        "Area_Of_Interest": bbox,
-        "Output_Projection": output_crs,
-        "Resample_Resolution": resample_res,
-        "f": "JSON",
-    }
-    # request session
-    session = requests.Session()
+    # Private attrs that will be set in post_init()
+    _search = field(
+        init=False, validator=validators.instance_of(ProductSearch)
+    )
+    _all_layers = field(init=False, validator=validators.instance_of(list))
+    _base_params = field(init=False, validator=validators.instance_of(dict))
+    _session = field(
+        init=False, validator=validators.instance_of(requests.Session)
+    )
+
+    def __attrs_post_init__(self) -> None:
+        """Post initialization setup."""
+
+        # instantiate products for searching
+        self._search = ProductSearch()
+
+        # for validation
+        self._all_layers = self._search.get_layers()
+
+        # base param payload
+        self._base_params = {
+            "Area_Of_Interest": self.bbox,
+            "Output_Projection": self.output_crs,
+            "f": "JSON",
+        }
+
+        # api will fail if 30 is provided to Resample_Resolution. Prefer to handle it here instead of confusing the user to provide None when they want 30 m.
+        if self.resample_res != 30:
+            self._base_params["Resample_Resolution"] = self.resample_res
+
+        # session object
+        self._session = requests.Session()
 
     @resample_res.validator
-    def resample_range_check(self, attribute: AttrsInstance, value: int) -> None:
+    def resample_range_check(
+        self, attribute: AttrsInstance, value: int
+    ) -> None:
         """Ensure resampling resolution is within allowable range."""
         if not 30 <= value <= 9999:
-            raise ValueError("resample_res must be between 30 and 9999 meters.")
+            raise ValueError(
+                "resample_res must be between 30 and 9999 meters."
+            )
 
     def __log_status(self, msg: str, show_status: bool) -> None:
+        """Show processing status as log INFO.
+
+        Args:
+            msg: Message to log.
+            show_status: Whether to log message.
+        """
         if show_status:
             logger.info(msg)
 
@@ -71,7 +103,7 @@ class Landfire:
             RuntimeError if user provided layers do not match possible layers available for download.
         """
         try:
-            assert all(layer in self.all_layers for layer in layers)
+            assert all(layer in self._all_layers for layer in layers)
         except AssertionError:
             raise RuntimeError(
                 "Specified layers do not match available layers from the LANDFIRE API. Please check your layer list and try again!"
@@ -83,7 +115,20 @@ class Landfire:
         params: Optional[Dict[str, Any]] = None,
         stream: Optional[bool] = None,
     ) -> Response:
-        submit_req = self.session.get(url=url, params=params, stream=stream)
+        """Tiny wrapper around requests.get() since we need to make four calls.
+
+        Args:
+            url: Request url.
+            params: Request parameters payload.
+            stream: Whether to stream the response.
+
+        Returns:
+            Response object
+
+        Raises:
+            HTTPError if one occurs.
+        """
+        submit_req = self._session.get(url=url, params=params, stream=stream)
         submit_req.raise_for_status()
         return submit_req
 
@@ -92,41 +137,53 @@ class Landfire:
         layers: List[str],
         output_path: str,
         show_status: bool = True,
+        backoff_base_value: int = 2,
     ) -> None:
-        """Request particular layers from Landfire.
+        """Request particular layers from Landfire to be output as a zipped .tif.
 
         Args:
             layers: List of product layers.
             output_path: Path-like string where data will be downloaded to. Include file name and .zip extension. For example, `~/tmp/my_landfire_data/output.zip`.
             show_status: Boolean whether to log data request status.
+            backoff_base_value: Base time in seconds for exponential backoff strategy. This is used to periodically query the job API for status while avoiding making too many requests.
 
+        Raises:
+            RuntimeError if provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.
         """
         # User layer validation
         self.__validate_layers(layers)
 
         # User path validation
         try:
-            assert Path(output_path).exists()
+            assert Path(output_path).parent.exists()
+            assert output_path.endswith(".zip")
         except AssertionError:
-            raise RuntimeError(f"{output_path} does not exist!")
+            raise RuntimeError(
+                f"{output_path} does not exist! Verify the path exists and the file name ends in `.zip`."
+            )
 
         # Add layer list to base_params
-        self.base_params["Layer_List"] = ";".join(layers)
+        self._base_params["Layer_List"] = ";".join(layers)
 
         # Submit initial request for layers
-        submit_job_req = self.__submit_request(REQUEST_URL, self.base_params).json()
+        submit_job_req = self.__submit_request(
+            REQUEST_URL, self._base_params
+        ).json()
 
         # Get job id, check status of processing with exponential backoff
         if "jobId" in submit_job_req:
             job_id = submit_job_req["jobId"]
             status = submit_job_req["jobStatus"]
-            self.__log_status("Job submitted! Processing request.", show_status)
+            self.__log_status(
+                "Job submitted! Processing request.", show_status
+            )
 
             job_url = JOB_URL + job_id
             n = 0
             while status == "esriJobSubmitted" or status == "esriJobExecuting":
                 n += 1
-                backoff_sec = 2**n
+                backoff_sec = backoff_base_value**n
+                # Don't wait on first try
                 if n != 1:
                     self.__log_status(
                         f"Checking status of job in {backoff_sec} seconds...",
@@ -134,15 +191,27 @@ class Landfire:
                     )
                     time.sleep(backoff_sec)
 
-                status_job_req = self.__submit_request(job_url, {"f": "json"}).json()
+                # Get job status
+                status_job_req = self.__submit_request(
+                    job_url, {"f": "json"}
+                ).json()
 
                 if "jobStatus" in status_job_req:
                     status = status_job_req["jobStatus"]
+                    if status_job_req["messages"]:
+                        latest_status_msg = status_job_req["messages"][-1][
+                            "description"
+                        ]
+                    else:
+                        latest_status_msg = "No message yet."
 
-                    # Obtain zip file URL
+                    # Obtain data results url
                     if status == "esriJobSucceeded":
-                        data_path = status_job_req["results"]["Output_File"]["paramUrl"]
+                        data_path = status_job_req["results"]["Output_File"][
+                            "paramUrl"
+                        ]
                         results_url = job_url + "/" + data_path
+                        # Get zip file url
                         data_job_req = self.__submit_request(
                             results_url, params={"f": "json"}
                         ).json()
@@ -153,7 +222,9 @@ class Landfire:
                         )
 
                         # Last request to get the zip file
-                        zip_job_req = self.__submit_request(zip_url, stream=True)
+                        zip_job_req = self.__submit_request(
+                            zip_url, stream=True
+                        )
                         # Write to provided output path
                         with open(output_path, "wb") as fd:
                             for chunk in zip_job_req.iter_content(
@@ -165,16 +236,15 @@ class Landfire:
                             show_status,
                         )
                     # Still executing, display most recent processing step
-                    elif status == "esriJobExecuting":
+                    elif status in ("esriJobExecuting", "esriJobSubmitted"):
                         self.__log_status(
-                            f"Still processing! Most recent message is `{status_job_req['messages'][-1]['description']}`",
+                            f"Still processing! Most recent message is `{latest_status_msg}`",
                             show_status,
                         )
-
                     # Fail if processing error
                     else:
                         raise RuntimeError(
-                            f"Encountered an error during job processing! {status_job_req['messages'][-1]['description']}"
+                            f"Encountered an error during job processing! {latest_status_msg}"
                         )
                 # Fail if no job status
                 else:

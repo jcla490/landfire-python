@@ -112,6 +112,20 @@ def test_get_bbox_from_file_geojson_no_driver() -> None:
     )
 
 
+def test_get_bbox_from_file_geojson_bad_driver() -> None:
+    """Test get_bbox_from_file() returns a valid bounding box as string in crs 4326 from geojson with no provided driver."""
+    driver = "BAD_DRIVER"
+    with pytest.raises(RuntimeError) as exc:
+        get_bbox_from_file(
+            aoi_file_path="tests/data/test_4326.geojson",
+            driver=driver,  # type: ignore
+        )
+    assert (
+        str(exc.value)
+        == f"`{driver}` is not a valid driver type! Supported drivers are {'.'.join([e.name for e in GeospatialDriver])}."
+    )
+
+
 def test_get_bbox_from_file_geojson_bad_path() -> None:
     """Test get_bbox_from_file() raises RuntimeError due to bad path."""
     with pytest.raises(RuntimeError) as exc:

@@ -43,8 +43,7 @@ Please see the [Command-line Reference] for details.
 
 ## Contributing
 
-Contributions are very welcome.
-To learn more, see the [Contributor Guide].
+Contributions are very welcome. To learn more, see the [Contributor Guide].
 
 ## License
 
@@ -56,13 +55,7 @@ _Landfire_ is free and open source software.
 If you encounter any problems,
 please [file an issue] along with a detailed description.
 
-## Credits
-
-This project was generated from [@cjolowicz]'s [Hypermodern Python Cookiecutter] template.
-
-[@cjolowicz]: https://github.com/cjolowicz
 [pypi]: https://pypi.org/
-[hypermodern python cookiecutter]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 [file an issue]: https://github.com/FireSci/landfire/issues
 [pip]: https://pip.pypa.io/
 

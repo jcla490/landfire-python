@@ -1,1 +1,1 @@
-"""Test suite for the landfire package."""
+"""Landfire tests."""

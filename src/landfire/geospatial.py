@@ -77,10 +77,10 @@ def get_bbox_from_file(
     # Validate user provided driver
     if driver:
         try:
-            assert driver in GeospatialDriver
-        except AssertionError:
+            assert driver in GeospatialDriver._value2member_map_
+        except (AssertionError, TypeError):
             raise RuntimeError(
-                f"`{driver}` is not a valid driver type! Supported drivers are {'.'.join([e for e in GeospatialDriver])}."
+                f"`{driver}` is not a valid driver type! Supported drivers are {'.'.join([e.name for e in GeospatialDriver])}."
             )
 
         try:
