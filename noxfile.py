@@ -149,7 +149,7 @@ def safety(session: Session) -> None:
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or ["src", "tests", "docs/conf.py"]
-    session.install(".")
+    session.install(".[geospatial]")
     session.install("mypy", "pytest")
     session.run("mypy", *args)
     if not session.posargs:
@@ -184,7 +184,7 @@ def coverage(session: Session) -> None:
 @session(python=python_versions[0])
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
-    session.install(".")
+    session.install(".[geospatial]")
     session.install("pytest", "typeguard", "pygments")
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
@@ -211,7 +211,7 @@ def docs_build(session: Session) -> None:
     if not session.posargs and "FORCE_COLOR" in os.environ:
         args.insert(0, "--color")
 
-    session.install(".")
+    session.install(".[geospatial]")
     session.install("sphinx", "sphinx-click", "furo", "myst-parser")
 
     build_dir = Path("docs", "_build")
@@ -225,7 +225,7 @@ def docs_build(session: Session) -> None:
 def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]
-    session.install(".")
+    session.install(".[geospatial]")
     session.install("sphinx", "sphinx-autobuild", "sphinx-click", "furo", "myst-parser")
 
     build_dir = Path("docs", "_build")
