@@ -19,9 +19,7 @@ def landfire() -> Landfire:
 # This method will be used by the mock to replace requests.get
 def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
     class MockResponse:
-        def __init__(
-            self, json_data: Dict[str, Any], status_code: int
-        ) -> None:
+        def __init__(self, json_data: Dict[str, Any], status_code: int) -> None:
             self.json_data = json_data
             self.status_code = status_code
 
@@ -41,20 +39,12 @@ def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
             {
                 "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
                 "jobStatus": "esriJobSucceeded",
-                "results": {
-                    "Output_File": {"paramUrl": "results/Output_File"}
-                },
+                "results": {"Output_File": {"paramUrl": "results/Output_File"}},
                 "inputs": {
                     "Layer_List": {"paramUrl": "inputs/Layer_List"},
-                    "Area_of_Interest": {
-                        "paramUrl": "inputs/Area_of_Interest"
-                    },
-                    "Output_Projection": {
-                        "paramUrl": "inputs/Output_Projection"
-                    },
-                    "Resample_Resolution": {
-                        "paramUrl": "inputs/Resample_Resolution"
-                    },
+                    "Area_of_Interest": {"paramUrl": "inputs/Area_of_Interest"},
+                    "Output_Projection": {"paramUrl": "inputs/Output_Projection"},
+                    "Resample_Resolution": {"paramUrl": "inputs/Resample_Resolution"},
                     "Edit_Rule": {"paramUrl": "inputs/Edit_Rule"},
                     "Edit_Mask": {"paramUrl": "inputs/Edit_Mask"},
                 },

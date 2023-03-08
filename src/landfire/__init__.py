@@ -33,22 +33,14 @@ class Landfire:
     """
 
     bbox: str = field(validator=validators.instance_of(str))
-    output_crs: str = field(
-        default="4326", validator=validators.instance_of(str)
-    )
-    resample_res: int = field(
-        default=30, validator=validators.instance_of(int)
-    )
+    output_crs: str = field(default="4326", validator=validators.instance_of(str))
+    resample_res: int = field(default=30, validator=validators.instance_of(int))
 
     # Private attrs that will be set in post_init()
-    _search = field(
-        init=False, validator=validators.instance_of(ProductSearch)
-    )
+    _search = field(init=False, validator=validators.instance_of(ProductSearch))
     _all_layers = field(init=False, validator=validators.instance_of(list))
     _base_params = field(init=False, validator=validators.instance_of(dict))
-    _session = field(
-        init=False, validator=validators.instance_of(requests.Session)
-    )
+    _session = field(init=False, validator=validators.instance_of(requests.Session))
 
     def __attrs_post_init__(self) -> None:
         """Post initialization setup."""
@@ -74,14 +66,10 @@ class Landfire:
         self._session = requests.Session()
 
     @resample_res.validator
-    def resample_range_check(
-        self, attribute: AttrsInstance, value: int
-    ) -> None:
+    def resample_range_check(self, attribute: AttrsInstance, value: int) -> None:
         """Ensure resampling resolution is within allowable range."""
         if not 30 <= value <= 9999:
-            raise ValueError(
-                "resample_res must be between 30 and 9999 meters."
-            )
+            raise ValueError("resample_res must be between 30 and 9999 meters.")
 
     def __log_status(self, msg: str, show_status: bool) -> None:
         """Show processing status as log INFO.
@@ -166,17 +154,13 @@ class Landfire:
         self._base_params["Layer_List"] = ";".join(layers)
 
         # Submit initial request for layers
-        submit_job_req = self.__submit_request(
-            REQUEST_URL, self._base_params
-        ).json()
+        submit_job_req = self.__submit_request(REQUEST_URL, self._base_params).json()
 
         # Get job id, check status of processing with exponential backoff
         if "jobId" in submit_job_req:
             job_id = submit_job_req["jobId"]
             status = submit_job_req["jobStatus"]
-            self.__log_status(
-                "Job submitted! Processing request.", show_status
-            )
+            self.__log_status("Job submitted! Processing request.", show_status)
 
             job_url = JOB_URL + job_id
             n = 0
@@ -192,9 +176,7 @@ class Landfire:
                     time.sleep(backoff_sec)
 
                 # Get job status
-                status_job_req = self.__submit_request(
-                    job_url, {"f": "json"}
-                ).json()
+                status_job_req = self.__submit_request(job_url, {"f": "json"}).json()
 
                 if "jobStatus" in status_job_req:
                     status = status_job_req["jobStatus"]
@@ -207,9 +189,7 @@ class Landfire:
 
                     # Obtain data results url
                     if status == "esriJobSucceeded":
-                        data_path = status_job_req["results"]["Output_File"][
-                            "paramUrl"
-                        ]
+                        data_path = status_job_req["results"]["Output_File"]["paramUrl"]
                         results_url = job_url + "/" + data_path
                         # Get zip file url
                         data_job_req = self.__submit_request(
@@ -222,9 +202,7 @@ class Landfire:
                         )
 
                         # Last request to get the zip file
-                        zip_job_req = self.__submit_request(
-                            zip_url, stream=True
-                        )
+                        zip_job_req = self.__submit_request(zip_url, stream=True)
                         # Write to provided output path
                         with open(output_path, "wb") as fd:
                             for chunk in zip_job_req.iter_content(
