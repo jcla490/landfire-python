@@ -9,7 +9,7 @@ from fiona.errors import DriverError
 try:
     import geojson
     import geopandas as gpd
-except ImportError as exc:
+except ImportError as exc:  # pragma: no cover
     raise RuntimeError(
         f"Failed to import `{exc.name}`."
         f"Please install `landfire[geospatial]` in order to use functions in geospatial.py."

@@ -1,32 +1,45 @@
 """Test suite for the landfire package."""
-from typing import Any, Dict
+import tempfile
+from typing import Any, Dict, Iterator
+from unittest import mock
+from unittest.mock import patch
 
 import pytest
 
 from landfire import Landfire
 
 
-@pytest.fixture
-def landfire() -> Landfire:
-    """Landfire fixture for use in other tests."""
-    return Landfire(
-        bbox="-107.70894965 46.56799094 -106.02718124 47.34869094",
-        output_crs="4326",
-        resample_res=30,
-    )
+class MockResponse:
+    """Mock response for request_data() tests."""
+
+    def __init__(self, json_data: Dict[str, Any], status_code: int) -> None:
+        """Class init."""
+        self.json_data = json_data
+        self.status_code = status_code
+
+    def json(self) -> Dict[str, Any]:
+        """Mock json func from Response."""
+        return self.json_data
+
+    def raise_for_status(self) -> None:
+        """Mock raise_for_status func from Response."""
+        return None
+
+    def iter_content(self, chunk_size: int) -> Iterator[bytes]:
+        """Mock iter_content func from Response."""
+        return iter(
+            [
+                bytes(
+                    "dummy text to write that is very cool",
+                    encoding="utf-8",
+                )
+            ]
+        )
 
 
-# This method will be used by the mock to replace requests.get
-def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
-    class MockResponse:
-        def __init__(self, json_data: Dict[str, Any], status_code: int) -> None:
-            self.json_data = json_data
-            self.status_code = status_code
-
-        def json(self) -> Dict[str, Any]:
-            return self.json_data
-
-    if "/submitJob" in args[0]:
+def mocked_requests_get_all_success(*args: Any, **kwargs: Any) -> Any:
+    """Build mock requests for all successful."""
+    if "/submitJob" in kwargs["url"]:
         return MockResponse(
             {
                 "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
@@ -34,7 +47,7 @@ def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
             },
             200,
         )
-    elif "/jobs/" in args[0]:
+    elif "/jobs/" in kwargs["url"] and "Output_File" not in kwargs["url"]:
         return MockResponse(
             {
                 "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
@@ -51,110 +64,105 @@ def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
                 "messages": [
                     {
                         "type": "esriJobMessageTypeInformative",
-                        "description": 'Executing (LandfireProductService): LcpClip map_zones "-107.70894965 46.56799094 -106.02718124 47.34869094" 4326 # # # #',
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Start Time: Tue Mar  7 09:37:09 2023",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": 'Executing (LcpClip): LcpClip map_zones "-107.70894965 46.56799094 -106.02718124 47.34869094" 4326 # # # #',
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Start Time: Tue Mar  7 09:37:09 2023",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Running script LcpClip...",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "AOI: -107.70894965 46.56799094 -106.02718124 47.34869094",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Entering ValidateCoordinates()",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Entering DetermineRegion()",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "region: US_",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Exiting DetermineRegion()",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "US_MAP_ZONES",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Entering getISinfo()",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Exiting getISinfo()",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Start creating geotif",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Finished creating geotif",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Start zipping of files",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "All files zipped successfully.",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
                         "description": "Job Finished",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Completed script LcpClip...",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Succeeded at Tue Mar  7 09:37:18 2023 (Elapsed Time: 9.47 seconds)",
-                    },
-                    {
-                        "type": "esriJobMessageTypeInformative",
-                        "description": "Succeeded at Tue Mar  7 09:37:18 2023 (Elapsed Time: 9.48 seconds)",
-                    },
+                    }
                 ],
             },
             200,
         )
-    elif "/results/Output_File" in args[0]:
-        return (
-            MockResponse(
-                {
-                    "paramName": "Output_File",
-                    "dataType": "GPDataFile",
-                    "value": {
-                        "url": "https://lfps.usgs.gov/arcgis/rest/directories/arcgisjobs/landfireproductservice_gpserver/j2c9bd85a11324adb8b763747f2eafebb/scratch/j2c9bd85a11324adb8b763747f2eafebb.zip"
-                    },
+    elif "Output_File" in kwargs["url"]:
+        return MockResponse(
+            {
+                "paramName": "Output_File",
+                "dataType": "GPDataFile",
+                "value": {
+                    "url": "https://lfps.usgs.gov/arcgis/rest/directories/arcgisjobs/landfireproductservice_gpserver/j2c9bd85a11324adb8b763747f2eafebb/scratch/j2c9bd85a11324adb8b763747f2eafebb.zip"
                 },
-                200,
-            ),
+            },
+            200,
         )
+    # We use iter_content() for the zip so the 'json' doesn't matter
+    elif ".zip" in kwargs["url"]:
+        return MockResponse(
+            {"Test": "test"},
+            200,
+        )
+
+
+def mocked_requests_get_submit_fail(*args: Any, **kwargs: Any) -> Any:
+    """Build mock requests for initial submission failure when no job id."""
+    if "/submitJob" in kwargs["url"]:
+        return MockResponse(
+            {
+                "jobStatus": "esriJobSubmitted",
+            },
+            200,
+        )
+
+
+def mocked_requests_get_job_status_fail(*args: Any, **kwargs: Any) -> Any:
+    """Build mock requests for job status fail."""
+    if "/submitJob" in kwargs["url"]:
+        return MockResponse(
+            {
+                "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
+                "jobStatus": "esriJobSubmitted",
+            },
+            200,
+        )
+    elif "/jobs/" in kwargs["url"] and "Output_File" not in kwargs["url"]:
+        return MockResponse(
+            {
+                "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
+            },
+            200,
+        )
+
+
+def mocked_requests_get_processing_fail(*args: Any, **kwargs: Any) -> Any:
+    """Build mock requests for failure during processing."""
+    if "/submitJob" in kwargs["url"]:
+        return MockResponse(
+            {
+                "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
+                "jobStatus": "esriJobSubmitted",
+            },
+            200,
+        )
+    elif "/jobs/" in kwargs["url"] and "Output_File" not in kwargs["url"]:
+        return MockResponse(
+            {
+                "jobId": "j2c9bd85a11324adb8b763747f2eafebb",
+                "jobStatus": "esriJobFailed",
+                "messages": [
+                    {
+                        "type": "esriJobMessageTypeInformative",
+                        "description": "Sad failure",
+                    }
+                ],
+            },
+            200,
+        )
+
+
+@pytest.fixture
+def landfire() -> Landfire:
+    """Landfire fixture for use in other tests."""
+    return Landfire(
+        bbox="-107.70894965 46.56799094 -106.02718124 47.34869094",
+        output_crs="4326",
+        resample_res=31,
+    )
+
+
+@pytest.fixture
+def temp_dir() -> Any:
+    """A simple temporary directory fixture."""
+    return tempfile.TemporaryDirectory()
 
 
 def test_landfire_init() -> None:
     """Tests that Landfire object inits and user params are not changed on init."""
-
     lf = Landfire(
         bbox="-107.70894965 46.56799094 -106.02718124 47.34869094",
         output_crs="4326",
@@ -167,7 +175,6 @@ def test_landfire_init() -> None:
 
 def test_resample_range_check_fail() -> None:
     """Tests that Landfire resample_res params fails range check."""
-
     with pytest.raises(ValueError) as exc:
         Landfire(
             bbox="-107.70894965 46.56799094 -106.02718124 47.34869094",
@@ -187,20 +194,71 @@ def test_request_data_bad_layers(landfire: Landfire) -> None:
     )
 
 
-def test_request_data_bad_path(landfire: Landfire) -> None:
-    """Test provided user path is invalid."""
-    bad_path = "BADPATH/test.zip"
+@patch("landfire.requests.get", side_effect=mocked_requests_get_all_success)
+def test_landfire_download(
+    mock_get: mock.Mock,
+    landfire: Landfire,
+    temp_dir: tempfile.TemporaryDirectory[str],
+) -> None:
+    """Test successful responses and write to file."""
+    landfire.request_data(
+        layers=["map_zones"], output_path=f"{temp_dir.name}/test_data.zip"
+    )
+    temp_dir.cleanup()
+
+
+@patch("landfire.requests.get", side_effect=mocked_requests_get_submit_fail)
+def test_landfire_download_submit_fail(
+    mock_get: mock.Mock,
+    landfire: Landfire,
+    temp_dir: tempfile.TemporaryDirectory[str],
+) -> None:
+    """Test failure when no job id exists."""
     with pytest.raises(RuntimeError) as exc:
-        landfire.request_data(layers=["map_zones"], output_path=bad_path)
+        landfire.request_data(
+            layers=["map_zones"],
+            output_path=f"{temp_dir.name}/test_data.zip",
+        )
     assert (
         str(exc.value)
-        == f"{bad_path} does not exist! Verify the path exists and the file name ends in `.zip`."
+        == "Unable to obtain job ID for request! Please verify your request parameters and try again! If this problem continues, please raise an issue at https://github.com/FireSci/landfire/issues."
     )
+    temp_dir.cleanup()
 
 
-# This is an integration test, class needs jesus
-def test_landfire_download(landfire: Landfire) -> None:
-    landfire.request_data(
-        layers=["map_zones"],
-        output_path="/Users/joshclark/Desktop/repos/firesci/landfire/tests/data/test_data.zip",
+@patch("landfire.requests.get", side_effect=mocked_requests_get_job_status_fail)
+def test_landfire_download_job_status_fail(
+    mock_get: mock.Mock,
+    landfire: Landfire,
+    temp_dir: tempfile.TemporaryDirectory[str],
+) -> None:
+    """Test failure when no job status exists."""
+    with pytest.raises(RuntimeError) as exc:
+        landfire.request_data(
+            layers=["map_zones"],
+            output_path=f"{temp_dir.name}/test_data.zip",
+        )
+    assert (
+        str(exc.value)
+        == "Could not obtain job status for job ID. Please try again! If this problem continues, please raise an issue at https://github.com/FireSci/landfire/issues."
     )
+    temp_dir.cleanup()
+
+
+@patch("landfire.requests.get", side_effect=mocked_requests_get_processing_fail)
+def test_landfire_download_job_processing_fail(
+    mock_get: mock.Mock,
+    landfire: Landfire,
+    temp_dir: tempfile.TemporaryDirectory,  # type: ignore
+) -> None:
+    """Test failure when processing fails."""
+    with pytest.raises(RuntimeError) as exc:
+        landfire.request_data(
+            layers=["map_zones"],
+            output_path=f"{temp_dir.name}/test_data.zip",
+        )
+    assert (
+        str(exc.value)
+        == "Encountered an error during job processing! Status was esriJobFailed and message was Sad failure."
+    )
+    temp_dir.cleanup()
