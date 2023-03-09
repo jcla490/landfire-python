@@ -70,8 +70,7 @@ def get_bbox_from_file(
     # Validate user provided path
     try:
         fpath = Path(aoi_file_path)
-        assert fpath.exists()
-    except (ValueError, AssertionError):
+    except ValueError:
         raise RuntimeError(f"`{aoi_file_path}` is not a valid path.")
 
     # Validate user provided driver
@@ -92,8 +91,12 @@ def get_bbox_from_file(
             )
     else:
         # Try to infer driver
-        gdf = gpd.read_file(fpath)
-
+        try:
+            gdf = gpd.read_file(fpath)
+        except DriverError:
+            raise RuntimeError(
+                "Unable to read file. Are you sure the correct file path was provided?"
+            )
     # 4326 is needed for Landfire API
     gdf = gdf.to_crs(4326)
 
