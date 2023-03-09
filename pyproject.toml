@@ -5,13 +5,18 @@ description = "Landfire"
 authors = ["FireSci <support@firesci.io>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/FireSci/landfire"
-repository = "https://github.com/FireSci/landfire"
-documentation = "https://landfire.readthedocs.io"
-classifiers = ["Development Status :: 2 - Pre-Alpha"]
+homepage = "https://github.com/FireSci/landfire-python"
+repository = "https://github.com/FireSci/landfire-python"
+documentation = "https://landfire-python.readthedocs.io"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Typing :: Typed",
+]
 
 [tool.poetry.urls]
-Changelog = "https://github.com/FireSci/landfire/releases"
+Changelog = "https://github.com/FireSci/landfire-python/releases"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
