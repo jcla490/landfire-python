@@ -63,8 +63,8 @@ def get_bbox_from_file(
         bounding box of the as a string.
 
     Raises:
-        RuntimeError if provided path is not able to be parsed as a Path object or if provided driver is not a valid member of GeospatialDriver enum.
-        DriverError if driver and file type do not match.
+        RuntimeError: If provided path is not able to be parsed as a Path object or if provided driver is not a valid member of GeospatialDriver enum.
+        DriverError: If driver and file type do not match.
 
     """
     # Validate user provided path
