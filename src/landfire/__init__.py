@@ -143,9 +143,6 @@ class Landfire:
 
         Returns:
             Response object.
-
-        Raises:
-            HTTPError: If 400 or 500 errors are encountered.
         """
         submit_req = requests.get(url=url, params=params, stream=stream)
         submit_req.raise_for_status()
