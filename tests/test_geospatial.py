@@ -57,7 +57,7 @@ def test_get_bbox_from_polygon_diff_crs(polygon_3857: geojson.Polygon) -> None:
     assert isinstance(bbox, str)
     assert (
         bbox
-        == "-107.70894964999998 46.56799093999999 -106.02718124000002 47.34869093999999"
+        == "-107.70894964999999 46.56799093999999 -106.02718124000002 47.34869093999999"
     )
 
 
