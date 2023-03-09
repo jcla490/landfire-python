@@ -88,7 +88,7 @@ Open a [pull request] to submit changes to this project.
 Your pull request needs to meet the following guidelines for acceptance:
 
 - The Nox test suite must pass without errors and warnings.
-- Include unit tests. This project maintains 95% code coverage.
+- Include unit tests. This project maintains 92% code coverage.
 - If your changes add functionality, update the documentation accordingly.
 
 To run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:

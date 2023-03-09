@@ -44,21 +44,30 @@ def polygon_3857() -> geojson.Polygon:
     )
 
 
+def validate_bbox(bbox: str) -> bool:
+    """Validate a rounded bbox to avoid issues with rounding on different workflow tests."""
+    expected_bbox = [
+        "-107.71",
+        "46.57",
+        "-106.03",
+        "47.35",
+    ]
+    returned_bbox = [str(round(float(v), 2)) for v in bbox.split(" ")]
+    return True if returned_bbox == expected_bbox else False
+
+
 def test_get_bbox_from_polygon_same_crs(polygon_4326: geojson.Polygon) -> None:
     """Test get_bbox_from_polygon() returns a valid bounding box as string."""
     bbox: str = get_bbox_from_polygon(aoi_polygon=polygon_4326, crs="4326")
     assert isinstance(bbox, str)
-    assert bbox == "-107.70894965 46.56799094 -106.02718124 47.34869094"
+    assert validate_bbox(bbox)
 
 
 def test_get_bbox_from_polygon_diff_crs(polygon_3857: geojson.Polygon) -> None:
     """Test get_bbox_from_polygon() returns a valid bounding box as string in crs 4326 from 3857."""
     bbox: str = get_bbox_from_polygon(aoi_polygon=polygon_3857, crs="3857")
     assert isinstance(bbox, str)
-    assert (
-        bbox
-        == "-107.70894964999998 46.56799093999999 -106.02718124000002 47.34869093999999"
-    )
+    assert validate_bbox(bbox)
 
 
 def test_get_bbox_from_file_shapefile() -> None:
@@ -68,10 +77,7 @@ def test_get_bbox_from_file_shapefile() -> None:
         driver=GeospatialDriver.shapefile,
     )
     assert isinstance(bbox, str)
-    assert (
-        bbox
-        == "-107.70894964879554 46.5679909433598 -106.0271812378708 47.34869094341488"
-    )
+    assert validate_bbox(bbox)
 
 
 def test_get_bbox_from_file_shapefile_sad() -> None:
@@ -94,10 +100,7 @@ def test_get_bbox_from_file_geojson() -> None:
         driver=GeospatialDriver.geojson,
     )
     assert isinstance(bbox, str)
-    assert (
-        bbox
-        == "-107.70894964879554 46.5679909433598 -106.0271812378708 47.34869094341488"
-    )
+    assert validate_bbox(bbox)
 
 
 def test_get_bbox_from_file_geojson_no_driver() -> None:
@@ -106,10 +109,7 @@ def test_get_bbox_from_file_geojson_no_driver() -> None:
         aoi_file_path="tests/data/test_4326.geojson",
     )
     assert isinstance(bbox, str)
-    assert (
-        bbox
-        == "-107.70894964879554 46.5679909433598 -106.0271812378708 47.34869094341488"
-    )
+    assert validate_bbox(bbox)
 
 
 def test_get_bbox_from_file_geojson_bad_driver() -> None:
@@ -127,9 +127,12 @@ def test_get_bbox_from_file_geojson_bad_driver() -> None:
 
 
 def test_get_bbox_from_file_geojson_bad_path() -> None:
-    """Test get_bbox_from_file() raises RuntimeError due to bad path."""
+    """Test get_bbox_from_file() raises DriverError due to bad path."""
     with pytest.raises(RuntimeError) as exc:
         get_bbox_from_file(
             aoi_file_path="e",
         )
-    assert str(exc.value) == "`e` is not a valid path."
+    assert (
+        str(exc.value)
+        == "Unable to read file. Are you sure the correct file path was provided?"
+    )

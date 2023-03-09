@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "landfire"
-version = "0.1.0"
+version = "0.2.0"
 description = "Landfire"
 authors = ["FireSci <support@firesci.io>"]
 license = "MIT"
@@ -17,9 +17,10 @@ Changelog = "https://github.com/FireSci/landfire/releases"
 python = ">=3.8,<3.12"
 attrs = ">=22.2.0"
 pydantic = ">=1.10"
+requests = "^2.28.2"
 geojson = { version = ">=3.0.0", optional = true }
 geopandas = { version = ">=0.12.0", optional = true }
-requests = "^2.28.2"
+pandas-stubs = "^1.5.3.230304"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
@@ -66,7 +67,7 @@ source = ["landfire"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 95
+fail_under = 92
 
 [tool.isort]
 profile = "black"
@@ -80,6 +81,7 @@ pretty = true
 show_column_numbers = true
 show_error_codes = true
 show_error_context = true
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -198,7 +198,7 @@ def test_request_data_bad_layers(landfire: Landfire) -> None:
 def test_landfire_download(
     mock_get: mock.Mock,
     landfire: Landfire,
-    temp_dir: tempfile.TemporaryDirectory[str],
+    temp_dir: tempfile.TemporaryDirectory,  # type: ignore
 ) -> None:
     """Test successful responses and write to file."""
     landfire.request_data(
@@ -211,7 +211,7 @@ def test_landfire_download(
 def test_landfire_download_submit_fail(
     mock_get: mock.Mock,
     landfire: Landfire,
-    temp_dir: tempfile.TemporaryDirectory[str],
+    temp_dir: tempfile.TemporaryDirectory,  # type: ignore
 ) -> None:
     """Test failure when no job id exists."""
     with pytest.raises(RuntimeError) as exc:
@@ -230,7 +230,7 @@ def test_landfire_download_submit_fail(
 def test_landfire_download_job_status_fail(
     mock_get: mock.Mock,
     landfire: Landfire,
-    temp_dir: tempfile.TemporaryDirectory[str],
+    temp_dir: tempfile.TemporaryDirectory,  # type: ignore
 ) -> None:
     """Test failure when no job status exists."""
     with pytest.raises(RuntimeError) as exc:

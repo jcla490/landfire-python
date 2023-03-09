@@ -11,7 +11,7 @@ from requests import Response
 from landfire.product.search import ProductSearch
 
 
-__version__ = "0.0.0"
+__version__ = "0.2.0"
 __all__ = ["landfire"]
 
 # URLs for making requests to LANDFIRE ArcGIS Rest Service
@@ -84,7 +84,7 @@ class Landfire:
             layers: List of user provided layers to validate.
 
         Raises:
-            RuntimeError if user provided layers do not match possible layers available for download.
+            RuntimeError: If user provided layers do not match possible layers available for download.
 
         """
         try:
@@ -104,7 +104,7 @@ class Landfire:
             output_path as a Path object.
 
         Raises:
-            RuntimeError if user provided path parent directory doesn't exist or the file name doesn't have the `.zip` extension.
+            RuntimeError: If user provided path parent directory doesn't exist or the file name doesn't have the `.zip` extension.
         """
         try:
             path_obj = Path(output_path)
@@ -143,9 +143,6 @@ class Landfire:
 
         Returns:
             Response object.
-
-        Raises:
-            HTTPError if one occurs.
         """
         submit_req = requests.get(url=url, params=params, stream=stream)
         submit_req.raise_for_status()
@@ -167,7 +164,7 @@ class Landfire:
             backoff_base_value: Base time in seconds for exponential backoff strategy. This is used to periodically query the job API for status while avoiding making too many requests.
 
         Raises:
-            RuntimeError if provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.
+            RuntimeError: If provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.
         """
         # User input validation
         self.__validate_layers(layers)
