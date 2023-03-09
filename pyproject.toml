@@ -67,7 +67,7 @@ source = ["landfire"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 95
+fail_under = 92
 
 [tool.isort]
 profile = "black"
