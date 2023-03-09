@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/pypi/l/landfire)][license]
 
 [![Read the documentation at https://landfire-python.readthedocs.io/](https://img.shields.io/readthedocs/landfire-python/latest.svg?label=Read%20the%20Docs)][read the docs]
-[![Tests](https://github.com/FireSci/landfire-python/workflows/tests/badge.svg)][tests]
+[![Tests](https://github.com/FireSci/landfire-python/workflows/Tests/badge.svg)][tests]
 [![Codecov](https://codecov.io/gh/FireSci/landfire-python/branch/main/graph/badge.svg)][codecov]
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
