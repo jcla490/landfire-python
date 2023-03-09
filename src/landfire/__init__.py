@@ -11,7 +11,7 @@ from requests import Response
 from landfire.product.search import ProductSearch
 
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = ["landfire"]
 
 # URLs for making requests to LANDFIRE ArcGIS Rest Service
