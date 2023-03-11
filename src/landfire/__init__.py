@@ -144,7 +144,7 @@ class Landfire:
         Returns:
             Response object.
         """
-        submit_req = requests.get(url=url, params=params, stream=stream)
+        submit_req = requests.get(url=url, params=params, stream=stream, timeout=300)
         submit_req.raise_for_status()
         return submit_req
 
