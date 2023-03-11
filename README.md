@@ -23,44 +23,69 @@
 
 ## Features
 
-- TODO
+`landfire-python` is a wrapper around the LANDFIRE Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
+
+### Supported LANDFIRE functionality
+
+- Clipping requested data to a specific bounding box
+- Reprojection of output data coordinate system to user-specified well-known integer ID format
+- Specifying a list of data product layers and obtaining a multi-band .tif output
+- Modifying the resampling resolution
+
+### Additional functionality
+
+- Search functionality to allow users to search for products by LANDFIRE version, name, product theme, product code, or availability regions (US, AK, HI)
+- Geospatial helpers to obtain suitable bounding box from a GeoJSON polygon or file (GeoJSON, ESRI Shapefile, ESRIJSON, CSV, FlatGeobuf, SQLite)
+- Robust model and enumerations of LANDFIRE products
+- User input validation to reduce potential failed API jobs and server load
+
+### Planned but not currently supported
+
+- Specifying edit rules for fuels data (requires a great deal of user-input validation)
+- Specifying an edit mask for edit rules (requires more LANDFIRE API i/o implementation)
 
 ## Requirements
 
-- TODO
+- python >=3.8, <3.12
+- attrs, pydantic, and requests will be installed when you install the lib
+- Optional dependencies included in the `geospatial` extra are geojson and geopandas
 
 ## Installation
 
-You can install _Landfire_ via [pip] from [PyPI]:
+```console
+pip install landfire
+# or...
+poetry add landfire
+```
+
+To use the geospatial tools found in `geospatial.py`, you'll need to install the extra dependencies:
 
 ```console
-$ pip install landfire
+pip install "landfire[geospatial]"
+# or...
+poetry add "landfire[geospatial]"
 ```
 
 ## Usage
 
-Please see the [Command-line Reference] for details.
+Please see the [documentation] for details.
 
 ## Contributing
 
-Contributions are very welcome. To learn more, see the [Contributor Guide].
+Contributions are very welcome! To learn more, see the [contributor guide].
 
 ## License
 
-Distributed under the terms of the [MIT license][license],
-_Landfire_ is free and open source software.
+Distributed under the terms of the [MIT license][license], landfire-python is free and open source software.
 
 ## Issues
 
-If you encounter any problems,
-please [file an issue] along with a detailed description.
+If you encounter any problems, please [file an issue] along with a detailed description!s
 
-[pypi]: https://pypi.org/
 [file an issue]: https://github.com/FireSci/landfire-python/issues
-[pip]: https://pip.pypa.io/
 
 <!-- github-only -->
 
 [license]: https://github.com/FireSci/landfire-python/blob/main/LICENSE
 [contributor guide]: https://github.com/FireSci/landfire-python/blob/main/CONTRIBUTING.md
-[command-line reference]: https://landfire-python.readthedocs.io/en/latest/usage.html
+[documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html

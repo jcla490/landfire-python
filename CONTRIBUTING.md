@@ -1,7 +1,6 @@
 # Contributor Guide
 
-Thank you for your interest in improving this project.
-This project is open-source under the [MIT license] and
+Thank you for your interest in improving this project. This project is open-source under the [MIT license] and
 welcomes contributions in the form of bug reports, feature requests, and pull requests.
 
 Here is a list of important resources for contributors:
@@ -12,9 +11,9 @@ Here is a list of important resources for contributors:
 - [Code of Conduct]
 
 [mit license]: https://opensource.org/licenses/MIT
-[source code]: https://github.com/FireSci/landfire
-[documentation]: https://landfire.readthedocs.io/
-[issue tracker]: https://github.com/FireSci/landfire/issues
+[source code]: https://github.com/FireSci/landfire-python
+[documentation]: https://landfire-python.readthedocs.io/
+[issue tracker]: https://github.com/FireSci/landfire-python/issues
 
 ## How to report a bug
 
@@ -28,8 +27,7 @@ When filing an issue, make sure to answer these questions:
 - What did you expect to see?
 - What did you see instead?
 
-The best way to get your bug fixed is to provide a test case,
-and/or steps to reproduce the issue.
+The best way to get your bug fixed is to provide a test case and/or steps to reproduce the issue.
 
 ## How to request a feature
 
@@ -47,6 +45,8 @@ Install the package with development requirements:
 
 ```console
 poetry install
+# or, with `geospatial` extra
+poetry install -E geospatial
 ```
 
 [poetry]: https://python-poetry.org/
@@ -67,8 +67,7 @@ List the available Nox sessions:
 nox --list-sessions
 ```
 
-You can also run a specific Nox session.
-For example, invoke the unit test suite like this:
+You can also run a specific Nox session. For example, invoke the unit test suite like this:
 
 ```console
 nox -s tests
@@ -76,9 +75,9 @@ nox -s tests
 nox --session=tests
 ```
 
-Unit tests are located in the _tests_ directory,
-and are written using the [pytest] testing framework.
+Unit tests are located in the [tests] directory and are written using [pytest].
 
+[tests]: https://github.com/FireSci/landfire-python/tree/main/tests
 [pytest]: https://pytest.readthedocs.io/
 
 ## How to submit changes
@@ -98,9 +97,9 @@ nox --session=pre-commit -- install
 ```
 
 It is recommended to open an issue before starting work on anything.
-This will allow a chance to talk it over with the owners and validate your approach.
+This will allow a chance to talk it over and validate your approach.
 
-[pull request]: https://github.com/FireSci/landfire/pulls
+[pull request]: https://github.com/FireSci/landfire-python/pulls
 
 <!-- github-only -->
 
