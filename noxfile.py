@@ -212,8 +212,15 @@ def docs_build(session: Session) -> None:
         args.insert(0, "--color")
 
     session.install(".[geospatial]")
-    session.install("sphinx", "sphinx-click", "furo", "myst-parser")
-
+    session.install(
+        "sphinx",
+        "sphinx-autobuild",
+        "sphinx_copybutton",
+        "sphinx_toolbox",
+        "enum_tools",
+        "furo",
+        "myst-parser",
+    )
     build_dir = Path("docs", "_build")
     if build_dir.exists():
         shutil.rmtree(build_dir)

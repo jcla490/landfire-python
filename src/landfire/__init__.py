@@ -155,7 +155,7 @@ class Landfire:
         show_status: bool = True,
         backoff_base_value: int = 2,
     ) -> None:
-        """Request particular layers from Landfire to be output as a zipped .tif.
+        """Request particular layers from Landfire to be output as a zipped .tif. NOTE: this function has no return, data will simply be downloaded to the specified `output_path`.
 
         Args:
             layers: List of product layers.
@@ -165,9 +165,6 @@ class Landfire:
 
         Raises:
             RuntimeError: If provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.
-
-        Returns:
-            None. Data will be downloaded to the specified `output_path`.
         """
         # User input validation
         self.__validate_layers(layers)
