@@ -23,7 +23,7 @@
 
 ## Features
 
-`landfire-python` is a wrapper around the [LANDFIRE][landfire] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci][firesci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
+`landfire-python` is a wrapper around the [LANDFIRE][landfire] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci][firesci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community! 🔥
 
 [landfire]: https://landfire.gov/index.php
 [firesci]: https://firesci.io/
@@ -75,13 +75,33 @@ pip install "landfire[geospatial]"
 
 ## Usage
 
-Please see the [documentation][documentation] for details.
+The simplest possible example requires simply initializing a `Landfire()` object for your area of interest and then submitting a request for data with `request_data()`, specifying the layers of interest and location to download.
+
+This example downloads the minimum required layers to construct a landscape (.lcp) file for FlamMap.
+
+```python
+import landfire
+
+# Obtain required layers for FlamMap landscape file
+lf = landfire.Landfire(bbox="-107.70894965 46.56799094 -106.02718124 47.34869094")
+lf.request_data(layers=["ELEV2020",   # elevation
+                        "SLPD2020",   # slope degrees
+                        "ASP2020",    # aspect
+                        "220F40_22",  # fuel models
+                        "220CC_22",   # canopy cover
+                        "220CH_22",   # canopy height
+                        "220CBH_22",  # canopy base height
+                        "220CBD_22"], # canopy bulk density
+                output_path="./test_flammap.zip")
+```
+
+Please see the [documentation][documentation] for further information on possible options, geospatial utilities, and searching for products!
 
 [documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
 
 ## Contributing
 
-Contributions are very welcome! To learn more, see the [contributor guide][contributor guide].
+Contributions are very welcome! 🙏 To learn more, see the [contributor guide][contributor guide].
 
 [contributor guide]: https://landfire-python.readthedocs.io/en/latest/contributing.html
 
@@ -89,11 +109,11 @@ Contributions are very welcome! To learn more, see the [contributor guide][contr
 
 Distributed under the terms of the [MIT license][license], landfire-python is free and open source software.
 
-[license]: https://github.com/FireSci/landfire-python/blob/main/LICENSE
+[license]: https://landfire-python.readthedocs.io/en/latest/license.html
 
 ## Issues
 
-If you encounter any problems, please [file an issue][file an issue] along with a detailed description
+If you encounter any problems, please [file an issue][file an issue] along with a detailed description! 🙌
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
 
