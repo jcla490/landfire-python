@@ -25,6 +25,9 @@
 
 `landfire-python` is a wrapper around the [LANDFIRE] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
 
+[landfire]: https://landfire.gov/index.php
+[firesci]: https://firesci.io/
+
 ### Supported LANDFIRE functionality
 
 - Clipping requested data to a specific bounding box
@@ -52,6 +55,12 @@
 - [attrs], [pydantic], and [requests] will be installed when you install the lib
 - Optional dependencies included in the `geospatial` extra are [geojson] and [geopandas]
 
+[attrs]: https://www.attrs.org/en/stable/index.html
+[pydantic]: https://docs.pydantic.dev/
+[requests]: https://requests.readthedocs.io/en/latest/
+[geojson]: https://python-geojson.readthedocs.io/en/latest/#
+[geopandas]: https://geopandas.org/en/stable/
+
 ## Installation
 
 ```bash
@@ -68,6 +77,8 @@ pip install "landfire[geospatial]"
 
 Please see the [documentation] for details.
 
+[documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
+
 ## Contributing
 
 Contributions are very welcome! To learn more, see the [contributor guide].
@@ -81,14 +92,6 @@ Distributed under the terms of the [MIT license][license], landfire-python is fr
 If you encounter any problems, please [file an issue] along with a detailed description!s
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
-[landfire]: https://landfire.gov/index.php
-[firesci]: https://firesci.io/
-[attrs]: https://www.attrs.org/en/stable/index.html
-[pydantic]: https://docs.pydantic.dev/
-[requests]: https://requests.readthedocs.io/en/latest/
-[geojson]: https://python-geojson.readthedocs.io/en/latest/#
-[geopandas]: https://geopandas.org/en/stable/
-[documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
 
 <!-- github-only -->
 
