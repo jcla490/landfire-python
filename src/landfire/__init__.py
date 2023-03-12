@@ -1,4 +1,4 @@
-"""Landfire."""
+"""Landfire data accessor."""
 import logging
 import time
 from pathlib import Path
@@ -11,7 +11,7 @@ from requests import Response
 from landfire.product.search import ProductSearch
 
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 __all__ = ["landfire"]
 
 # URLs for making requests to LANDFIRE ArcGIS Rest Service
@@ -62,7 +62,7 @@ class Landfire:
             self._base_params["Resample_Resolution"] = self.resample_res
 
     @resample_res.validator
-    def resample_range_check(self, attribute: AttrsInstance, value: int) -> None:
+    def __resample_range_check(self, attribute: AttrsInstance, value: int) -> None:
         """Ensure resampling resolution is within allowable range."""
         if not 30 <= value <= 9999:
             raise ValueError("resample_res must be between 30 and 9999 meters.")
@@ -165,6 +165,9 @@ class Landfire:
 
         Raises:
             RuntimeError: If provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.
+
+        Returns:
+            None. Data will be downloaded to the specified `output_path`.
         """
         # User input validation
         self.__validate_layers(layers)

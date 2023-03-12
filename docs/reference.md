@@ -1,8 +1,12 @@
 # Reference
 
-## landfire
+## landfire-python
 
 ```{eval-rst}
-.. automodule:: landfire
-   :members:
+.. toctree::
+   :maxdepth: 4
+
+   landfire
+   products
+   geospatial
 ```

@@ -1,4 +1,4 @@
-# Landfire
+# landfire-python
 
 [![PyPI](https://img.shields.io/pypi/v/landfire.svg)][pypi_]
 [![Status](https://img.shields.io/pypi/status/landfire.svg)][status]
@@ -23,7 +23,7 @@
 
 ## Features
 
-`landfire-python` is a wrapper around the LANDFIRE Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
+`landfire-python` is a wrapper around the [LANDFIRE] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
 
 ### Supported LANDFIRE functionality
 
@@ -43,27 +43,25 @@
 
 - Specifying edit rules for fuels data (requires a great deal of user-input validation)
 - Specifying an edit mask for edit rules (requires more LANDFIRE API i/o implementation)
+- Note the LANDFIRE API does not currently provide support for insular regions
+- We will add new products here as they become available
 
 ## Requirements
 
 - python >=3.8, <3.12
-- attrs, pydantic, and requests will be installed when you install the lib
-- Optional dependencies included in the `geospatial` extra are geojson and geopandas
+- [attrs], [pydantic], and [requests] will be installed when you install the lib
+- Optional dependencies included in the `geospatial` extra are [geojson] and [geopandas]
 
 ## Installation
 
-```console
+```bash
 pip install landfire
-# or...
-poetry add landfire
 ```
 
 To use the geospatial tools found in `geospatial.py`, you'll need to install the extra dependencies:
 
-```console
+```bash
 pip install "landfire[geospatial]"
-# or...
-poetry add "landfire[geospatial]"
 ```
 
 ## Usage
@@ -86,6 +84,13 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 
 <!-- github-only -->
 
+[landfire]: https://landfire.gov/index.php
+[firesci]: https://firesci.io/
+[attrs]: https://www.attrs.org/en/stable/index.html
+[pydantic]: https://docs.pydantic.dev/
+[requests]: https://requests.readthedocs.io/en/latest/
+[geojson]: https://python-geojson.readthedocs.io/en/latest/#
+[geopandas]: https://geopandas.org/en/stable/
 [license]: https://github.com/FireSci/landfire-python/blob/main/LICENSE
 [contributor guide]: https://github.com/FireSci/landfire-python/blob/main/CONTRIBUTING.md
 [documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
