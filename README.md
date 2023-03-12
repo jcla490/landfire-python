@@ -23,7 +23,7 @@
 
 ## Features
 
-`landfire-python` is a wrapper around the [LANDFIRE] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
+`landfire-python` is a wrapper around the [LANDFIRE][landfire] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci][firesci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
 
 [landfire]: https://landfire.gov/index.php
 [firesci]: https://firesci.io/
@@ -52,8 +52,8 @@
 ## Requirements
 
 - python >=3.8, <3.12
-- [attrs], [pydantic], and [requests] will be installed when you install the lib
-- Optional dependencies included in the `geospatial` extra are [geojson] and [geopandas]
+- [attrs][attrs], [pydantic][pydantic], and [requests][requests] will be installed when you install the lib
+- Optional dependencies included in the `geospatial` extra are [geojson][geojson] and [geopandas][geopandas]
 
 [attrs]: https://www.attrs.org/en/stable/index.html
 [pydantic]: https://docs.pydantic.dev/
@@ -75,13 +75,13 @@ pip install "landfire[geospatial]"
 
 ## Usage
 
-Please see the [documentation] for details.
+Please see the [documentation][documentation] for details.
 
 [documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
 
 ## Contributing
 
-Contributions are very welcome! To learn more, see the [contributor guide].
+Contributions are very welcome! To learn more, see the [contributor guide][contributor guide].
 
 [contributor guide]: https://landfire-python.readthedocs.io/en/latest/contributing.html
 
@@ -93,6 +93,6 @@ Distributed under the terms of the [MIT license][license], landfire-python is fr
 
 ## Issues
 
-If you encounter any problems, please [file an issue] along with a detailed description!s
+If you encounter any problems, please [file an issue][file an issue] along with a detailed description
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
