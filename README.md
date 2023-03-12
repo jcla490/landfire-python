@@ -83,17 +83,16 @@ Please see the [documentation] for details.
 
 Contributions are very welcome! To learn more, see the [contributor guide].
 
+[contributor guide]: https://landfire-python.readthedocs.io/en/latest/contributing.html
+
 ## License
 
 Distributed under the terms of the [MIT license][license], landfire-python is free and open source software.
+
+[license]: https://github.com/FireSci/landfire-python/blob/main/LICENSE
 
 ## Issues
 
 If you encounter any problems, please [file an issue] along with a detailed description!s
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
-
-<!-- github-only -->
-
-[license]: https://github.com/FireSci/landfire-python/blob/main/LICENSE
-[contributor guide]: https://github.com/FireSci/landfire-python/blob/main/CONTRIBUTING.md
