@@ -96,3 +96,5 @@ Distributed under the terms of the [MIT license][license], landfire-python is fr
 If you encounter any problems, please [file an issue][file an issue] along with a detailed description
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
+
+<!-- github-only -->
