@@ -358,7 +358,7 @@ name = "click-plugins"
 version = "1.1.1"
 description = "An extension module for click to enable registering CLI commands via setuptools entry-points."
 category = "main"
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "click-plugins-1.1.1.tar.gz", hash = "sha256:46ab999744a9d831159c3411bb0c79346d94a444df9a3a3742e9ed63645f264b"},
@@ -376,7 +376,7 @@ name = "cligj"
 version = "0.7.2"
 description = "Click params for commmand line interfaces to GeoJSON"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, <4"
 files = [
     {file = "cligj-0.7.2-py3-none-any.whl", hash = "sha256:c1ca117dbce1fe20a5809dc96f01e1c2840f6dcc939b3ddbb1111bf330ba82df"},
@@ -653,7 +653,7 @@ name = "fiona"
 version = "1.9.1"
 description = "Fiona reads and writes spatial data files"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "Fiona-1.9.1-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:902b67b2d012c5797b5d7d3cb3b46dcf9a342cf90a7f7e53fb12c83738d19926"},
@@ -1224,7 +1224,7 @@ name = "munch"
 version = "2.5.0"
 description = "A dot-accessible dictionary (a la JavaScript objects)"
 category = "main"
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "munch-2.5.0-py2.py3-none-any.whl", hash = "sha256:6f44af89a2ce4ed04ff8de41f70b226b984db10a91dcc7b9ac2efc1c77022fdd"},
@@ -2713,4 +2713,4 @@ geospatial = ["geopandas", "geojson"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8, <3.12"
-content-hash = "1eba9fec2adee0d4779dbec10e5604b81eeb29e1e7c22f931caba01c2822bba8"
+content-hash = "271cf1bfea009f50ef9bee22a0cf2da3b1e24f6b30bca5c635c66c398294e0b3"

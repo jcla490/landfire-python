@@ -24,6 +24,7 @@ pydantic = ">=1.10"
 requests = ">=2.28.0"
 geojson = { version = ">=3.0.0", optional = true }
 geopandas = { version = ">=0.12.0", optional = true }
+fiona = { version = ">=1.9.0", optional = true }
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
@@ -59,7 +60,7 @@ enum-tools = { extras = ["sphinx"], version = "^0.9.0.post1" }
 [tool.poetry.extras]
 # If developing this package, use `poetry install -E geospatial`
 # If using this package, try `poetry add "landfire[geospatial]"`
-geospatial = ["geopandas", "geojson"]
+geospatial = ["fiona", "geopandas", "geojson"]
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

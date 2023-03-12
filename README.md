@@ -53,11 +53,12 @@
 
 - python >=3.8, <3.12
 - [attrs][attrs], [pydantic][pydantic], and [requests][requests] will be installed when you install the lib
-- Optional dependencies included in the `geospatial` extra are [geojson][geojson] and [geopandas][geopandas]
+- Optional dependencies included in the `geospatial` extra are fiona[fiona], [geojson][geojson] and [geopandas][geopandas]
 
 [attrs]: https://www.attrs.org/en/stable/index.html
 [pydantic]: https://docs.pydantic.dev/
 [requests]: https://requests.readthedocs.io/en/latest/
+[fiona]: https://github.com/Toblerity/Fiona
 [geojson]: https://python-geojson.readthedocs.io/en/latest/#
 [geopandas]: https://geopandas.org/en/stable/
 
