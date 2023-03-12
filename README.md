@@ -81,9 +81,6 @@ Distributed under the terms of the [MIT license][license], landfire-python is fr
 If you encounter any problems, please [file an issue] along with a detailed description!s
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
-
-<!-- github-only -->
-
 [landfire]: https://landfire.gov/index.php
 [firesci]: https://firesci.io/
 [attrs]: https://www.attrs.org/en/stable/index.html
@@ -91,6 +88,9 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 [requests]: https://requests.readthedocs.io/en/latest/
 [geojson]: https://python-geojson.readthedocs.io/en/latest/#
 [geopandas]: https://geopandas.org/en/stable/
+[documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
+
+<!-- github-only -->
+
 [license]: https://github.com/FireSci/landfire-python/blob/main/LICENSE
 [contributor guide]: https://github.com/FireSci/landfire-python/blob/main/CONTRIBUTING.md
-[documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
