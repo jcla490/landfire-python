@@ -2,7 +2,7 @@
 
 ## Quickstart
 
-The simplest possible example requires simply initializing a `Landfire()` object for your area of interest and then submitting a request for data with `request_data()`, specifying the layers of interest and location to download.
+The simplest possible example requires simply initializing a `Landfire()` object for your area of interest and then submitting a request for data with `request_data()`, specifying the layers of interest and file location to download to (note the file does not need to exist yet, but the path does!).
 
 This example downloads the minimum required layers to construct a landscape (.lcp) file for FlamMap.
 
