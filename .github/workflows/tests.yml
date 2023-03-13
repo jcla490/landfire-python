@@ -108,6 +108,7 @@ jobs:
           path: docs/_build
 
   coverage:
+    name: Report Coverage
     runs-on: ubuntu-latest
     needs: tests
     steps:
