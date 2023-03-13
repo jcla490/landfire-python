@@ -74,11 +74,10 @@ class ProductSearch:
                     break
         self._products = products
 
-    def __get_final_layers(self) -> List[str]:
-        """Get list of layers from list of Products remaining."""
+    def __get_layers(self, products: List[Product]) -> List[str]:
+        """Get list of layers from list of Products."""
         layers: List[str] = []
-        # Remaining products
-        for product in self._products:
+        for product in products:
             # Availability in product
             for pa in product.availability:
                 for layer in pa.layers:
@@ -86,7 +85,7 @@ class ProductSearch:
         # Convert to set to remove duplicates (map_zone, disturbances) that are present across each version. Landfire API has no way of specifying which version to use for these.
         return list(set(layers))
 
-    def search_products(
+    def __query(
         self,
         *,
         names: Optional[List[str]] = None,
@@ -95,7 +94,7 @@ class ProductSearch:
         versions: Optional[List[ProductVersion]] = None,
         regions: Optional[List[ProductRegion]] = None,
     ) -> List[Product]:
-        """Search products for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in all products being returned.
+        """Query products for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in no actual searching.
 
         Args:
             names: Product names.
@@ -105,7 +104,7 @@ class ProductSearch:
             regions: Product regions. See ProductRegion enum.
 
         Returns:
-            List of matching Products.
+            List of matching products.
         """
         if names:
             self.__filter_by_name(names)
@@ -120,6 +119,61 @@ class ProductSearch:
 
         return self._products
 
-    def get_layers(self) -> List[str]:
-        """Get a list of layers corresponding to final, filtered list of Products."""
-        return self.__get_final_layers()
+    def get_products(
+        self,
+        *,
+        names: Optional[List[str]] = None,
+        codes: Optional[List[str]] = None,
+        themes: Optional[List[ProductTheme]] = None,
+        versions: Optional[List[ProductVersion]] = None,
+        regions: Optional[List[ProductRegion]] = None,
+    ) -> List[Product]:
+        """Get products for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in no actual searching and returns the full list of products.
+
+        Args:
+            names: Product names.
+            codes: Product codes.
+            themes: Product themes. See ProductTheme enum.
+            versions: Product versions. See ProductVersion enum.
+            regions: Product regions. See ProductRegion enum.
+
+        Returns:
+            List of Products.
+        """
+        return self.__query(
+            names=names,
+            codes=codes,
+            themes=themes,
+            versions=versions,
+            regions=regions,
+        )
+
+    def get_layers(
+        self,
+        *,
+        names: Optional[List[str]] = None,
+        codes: Optional[List[str]] = None,
+        themes: Optional[List[ProductTheme]] = None,
+        versions: Optional[List[ProductVersion]] = None,
+        regions: Optional[List[ProductRegion]] = None,
+    ) -> List[str]:
+        """Get layers for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in no actual searching and returns the full list of product layers.
+
+        Args:
+            names: Product names.
+            codes: Product codes.
+            themes: Product themes. See ProductTheme enum.
+            versions: Product versions. See ProductVersion enum.
+            regions: Product regions. See ProductRegion enum.
+
+        Returns:
+            List of product layers.
+        """
+        products = self.__query(
+            names=names,
+            codes=codes,
+            themes=themes,
+            versions=versions,
+            regions=regions,
+        )
+        return self.__get_layers(products)

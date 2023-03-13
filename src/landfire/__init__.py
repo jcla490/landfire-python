@@ -11,7 +11,7 @@ from requests import Response
 from landfire.product.search import ProductSearch
 
 
-__version__ = "0.2.3"
+__version__ = "0.3.0"
 __all__ = ["landfire"]
 
 # URLs for making requests to LANDFIRE ArcGIS Rest Service
@@ -161,7 +161,7 @@ class Landfire:
             layers: List of product layers.
             output_path: Path-like string where data will be downloaded to. Include 'empty' file name and .zip extension. For example, `~/tmp/my_landfire_data/output.zip`.
             show_status: Boolean whether to log data request status.
-            backoff_base_value: Base time in seconds for exponential backoff strategy. This is used to periodically query the job API for status while avoiding making too many requests.
+            backoff_base_value: Base time in seconds for liner backoff strategy. This is used to periodically query the job API for status while avoiding making too many requests.
 
         Raises:
             RuntimeError: If provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.
@@ -178,7 +178,7 @@ class Landfire:
             REQUEST_URL, params=self._base_params, stream=False
         ).json()
 
-        # Get job id, check status of processing with exponential backoff
+        # Get job id, check status of processing with backoff
         if "jobId" in submit_job_req:
             job_id = submit_job_req["jobId"]
             status = submit_job_req["jobStatus"]
@@ -188,7 +188,7 @@ class Landfire:
             n = 0
             while status == "esriJobSubmitted" or status == "esriJobExecuting":
                 n += 1
-                backoff_sec = backoff_base_value**n
+                backoff_sec = backoff_base_value * n
                 # Don't wait on first try
                 if n != 1:
                     self.__log_status(
