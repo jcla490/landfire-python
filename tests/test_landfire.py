@@ -259,6 +259,6 @@ def test_landfire_download_job_processing_fail(
         )
     assert (
         str(exc.value)
-        == "Encountered an error during job processing! Status was esriJobFailed and message was Sad failure."
+        == "Encountered an error during job processing! Status was `esriJobFailed` and message was `Sad failure`."
     )
     temp_dir.cleanup()
