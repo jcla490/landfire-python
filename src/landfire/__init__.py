@@ -1,7 +1,8 @@
 """Landfire data accessor."""
+import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 import requests
 from attrs import AttrsInstance, define, field, validators
@@ -25,14 +26,16 @@ class Landfire:
 
     Args:
         bbox: Bounding box with form `min_x min_y max_x max_y`. For example, `-107.70894965 46.56799094 -106.02718124 47.34869094`. Use geospatial util func `get_bbox_from_polygon()` to convert a GeoJSON Polygon object or get_bbox_from_file() to convert a file to a suitable bounding box if needed.
-        output_crs: Output coordinate reference system in well-known integer ID (WKID) format (EPSG). Defaults to `4326` or WGS84. See https://epsg.io for a full list of EPSG WKIDs.
+        output_crs: Output coordinate reference system in well-known integer ID (WKID) format (EPSG). Defaults to None to preserve localized Albers projection from LANDFIRE needed for most fire models (FlamMap, FARSITE, etc.). A commonly used value for other purposes is `4326` for WGS84. See https://epsg.io for a full list of EPSG WKIDs.
         resample_res: Resolution in meters for resampling output data. Defaults to 30 meters. Acceptable values are 30 to 9999 meters.
     """
 
     bbox: str = field(validator=validators.instance_of(str))
-    output_crs: str = field(default="4326", validator=validators.instance_of(str))
     resample_res: int = field(default=30, validator=validators.instance_of(int))
-
+    output_crs: Union[str, None] = field(
+        default=None,
+        validator=validators.optional(validators.instance_of(str)),
+    )
     # Private attrs that will be set in post_init()
     _search = field(init=False, validator=validators.instance_of(ProductSearch))
     _all_layers = field(init=False, validator=validators.instance_of(list))
@@ -179,9 +182,14 @@ class Landfire:
 
         # Init progress
         if show_status:
-            pbar = tqdm(total=100, desc="Job Status")
+            pbar = tqdm(
+                total=100,
+                desc="Job Status",
+                file=sys.stdout,
+                bar_format="{l_bar}{bar} [Total Duration: {elapsed}]",
+            )
         else:
-            pbar = tqdm(total=100, desc="Job Status", disable=True)
+            pbar = tqdm(total=100, disable=True)
 
         # Submit initial request for layers
         self._write_status("Submitting job...", pbar, show_status)
