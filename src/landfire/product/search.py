@@ -13,6 +13,8 @@ class ProductSearch:
 
     Call get_products() or get_layers() to get search output depending on your needs. Passing no arguments to this class will result in no actual searching and methods called on this object will return all products/layers.
 
+    A reference table of available LANDFIRE products can be found here: https://lfps.usgs.gov/helpdocs/productstable.html
+
     Args:
         names: Product names.
         codes: Product codes.

@@ -37,10 +37,12 @@
 
 ### Additional functionality
 
-- Search functionality to allow users to search for products by LANDFIRE version, name, product theme, product code, or availability regions (US, AK, HI)
+- Search functionality to allow users to search for products by LANDFIRE version, name, product theme, product code, or availability regions (US, AK, HI). If you're a highly visual person, take a look at the [LANDFIRE product availability table][landfire product availability table] to find your layer(s) of interest.
 - Geospatial helpers to obtain suitable bounding box from a GeoJSON polygon or file (GeoJSON, ESRI Shapefile, ESRIJSON, CSV, FlatGeobuf, SQLite)
 - Robust model and enumerations of LANDFIRE products
 - User input validation to reduce potential failed API jobs and server load
+
+[landfire product availability table]: https://lfps.usgs.gov/helpdocs/productstable.html
 
 ### Planned but not currently supported
 
