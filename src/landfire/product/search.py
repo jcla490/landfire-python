@@ -30,7 +30,7 @@ class ProductSearch:
 
     _products: List[Product] = field(default=PRODUCTS, init=False)
 
-    def __filter_by_name(self, names: List[str]) -> None:
+    def _filter_by_name(self, names: List[str]) -> None:
         """Filter products by name(s).
 
         Args:
@@ -42,7 +42,7 @@ class ProductSearch:
             if product.name in [name.lower() for name in names]
         ]
 
-    def __filter_by_code(self, codes: List[str]) -> None:
+    def _filter_by_code(self, codes: List[str]) -> None:
         """Filter products by product code(s).
 
         Args:
@@ -54,7 +54,7 @@ class ProductSearch:
             if product.code in [code for code in codes]
         ]
 
-    def __filter_by_theme(self, themes: List[ProductTheme]) -> None:
+    def _filter_by_theme(self, themes: List[ProductTheme]) -> None:
         """Filter products by product theme(s).
 
         Args:
@@ -64,7 +64,7 @@ class ProductSearch:
             product for product in self._products if product.theme in themes
         ]
 
-    def __filter_by_version(self, versions: List[ProductVersion]) -> None:
+    def _filter_by_version(self, versions: List[ProductVersion]) -> None:
         """Filter products by product version.
 
         Args:
@@ -77,7 +77,7 @@ class ProductSearch:
                     products.append(product)
         self._products = products
 
-    def __filter_by_region(self, regions: List[ProductRegion]) -> None:
+    def _filter_by_region(self, regions: List[ProductRegion]) -> None:
         """Filter products by product region. Do I like this? No. Does it work? Yes.
 
         Args:
@@ -91,7 +91,7 @@ class ProductSearch:
                     break
         self._products = products
 
-    def __get_layers(self, products: List[Product]) -> List[str]:
+    def _get_layers(self, products: List[Product]) -> List[str]:
         """Get list of layers from list of Products."""
         layers: List[str] = []
         for product in products:
@@ -102,7 +102,7 @@ class ProductSearch:
         # Convert to set to remove duplicates (map_zone, disturbances) that are present across each version. Landfire API has no way of specifying which version to use for these.
         return list(set(layers))
 
-    def __query(
+    def _query(
         self,
         *,
         names: Optional[List[str]] = None,
@@ -124,15 +124,15 @@ class ProductSearch:
             List of matching products.
         """
         if names:
-            self.__filter_by_name(names)
+            self._filter_by_name(names)
         if codes:
-            self.__filter_by_code(codes)
+            self._filter_by_code(codes)
         if themes:
-            self.__filter_by_theme(themes)
+            self._filter_by_theme(themes)
         if versions:
-            self.__filter_by_version(versions)
+            self._filter_by_version(versions)
         if regions:
-            self.__filter_by_region(regions)
+            self._filter_by_region(regions)
 
         return self._products
 
@@ -142,7 +142,7 @@ class ProductSearch:
         Returns:
             List of Products.
         """
-        return self.__query(
+        return self._query(
             names=self.names,
             codes=self.codes,
             themes=self.themes,
@@ -156,11 +156,11 @@ class ProductSearch:
         Returns:
             List of product layers.
         """
-        products = self.__query(
+        products = self._query(
             names=self.names,
             codes=self.codes,
             themes=self.themes,
             versions=self.versions,
             regions=self.regions,
         )
-        return self.__get_layers(products)
+        return self._get_layers(products)
