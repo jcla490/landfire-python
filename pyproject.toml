@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/FireSci/landfire-python"
 repository = "https://github.com/FireSci/landfire-python"
-documentation = "https://landfire-python.readthedocs.io"
+documentation = "https://landfire-python.firesci.io"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",

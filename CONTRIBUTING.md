@@ -12,7 +12,7 @@ Here is a list of important resources for contributors:
 
 [mit license]: https://opensource.org/licenses/MIT
 [source code]: https://github.com/FireSci/landfire-python
-[documentation]: https://landfire-python.readthedocs.io/
+[documentation]: https://landfire-python.firesci.io/
 [issue tracker]: https://github.com/FireSci/landfire-python/issues
 
 ## How to report a bug

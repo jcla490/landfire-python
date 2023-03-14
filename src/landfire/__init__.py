@@ -165,7 +165,7 @@ class Landfire:
             layers: List of product layers.
             output_path: Path-like string where data will be downloaded to. Include 'empty' file name and .zip extension. For example, `~/tmp/my_landfire_data/output.zip`.
             show_status: Whether to write (True) or suppress (False) progress bar and status update output for data request.
-            backoff_base_value: Base time in seconds for liner backoff strategy. This is used to query the job API periodically for status while avoiding making too many requests. Please be courteous with this parameter as it will directly affect the number of calls to the LANDFIRE API.
+            backoff_base_value: Base time in seconds for linear backoff strategy. This is used to query the job API periodically for status while avoiding making too many requests. Please be courteous with this parameter as it will directly affect the number of calls to the LANDFIRE API!
 
         Raises:
             RuntimeError: If provided layers are not valid, if output_path does not exist, or if an unexpected error occurs when processing requested data.

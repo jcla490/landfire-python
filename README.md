@@ -5,7 +5,7 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/landfire)][python version]
 [![License](https://img.shields.io/pypi/l/landfire)][license]
 
-[![Read the documentation at https://landfire-python.readthedocs.io/](https://img.shields.io/readthedocs/landfire-python/latest.svg?label=Read%20the%20Docs)][read the docs]
+[![Read the documentation at https://landfire-python.firesci.io/](https://img.shields.io/readthedocs/landfire-python/latest.svg?label=Read%20the%20Docs)][read the docs]
 [![Tests](https://github.com/FireSci/landfire-python/workflows/Tests/badge.svg)][tests]
 [![Codecov](https://codecov.io/gh/FireSci/landfire-python/branch/main/graph/badge.svg)][codecov]
 
@@ -15,7 +15,7 @@
 [pypi_]: https://pypi.org/project/landfire/
 [status]: https://pypi.org/project/landfire/
 [python version]: https://pypi.org/project/landfire
-[read the docs]: https://landfire-python.readthedocs.io/
+[read the docs]: https://landfire-python.firesci.io/
 [tests]: https://github.com/FireSci/landfire-python/actions?workflow=Tests
 [codecov]: https://app.codecov.io/gh/FireSci/landfire-python
 [pre-commit]: https://github.com/pre-commit/pre-commit
@@ -98,19 +98,19 @@ lf.request_data(layers=["ELEV2020",   # elevation
 
 Please see the [documentation][documentation] for further information on possible options, geospatial utilities, and searching for products!
 
-[documentation]: https://landfire-python.readthedocs.io/en/latest/usage.html
+[documentation]: https://landfire-python.firesci.io/en/latest/usage.html
 
 ## Contributing
 
 Contributions are very welcome! 🙏 To learn more, see the [contributor guide][contributor guide].
 
-[contributor guide]: https://landfire-python.readthedocs.io/en/latest/contributing.html
+[contributor guide]: https://landfire-python.firesci.io/en/latest/contributing.html
 
 ## License
 
 Distributed under the terms of the [MIT license][license], landfire-python is free and open source software.
 
-[license]: https://landfire-python.readthedocs.io/en/latest/license.html
+[license]: https://landfire-python.firesci.io/en/latest/license.html
 
 ## Issues
 
