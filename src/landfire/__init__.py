@@ -11,7 +11,7 @@ from requests import Response
 from landfire.product.search import ProductSearch
 
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __all__ = ["landfire"]
 
 # URLs for making requests to LANDFIRE ArcGIS Rest Service
@@ -20,6 +20,7 @@ REQUEST_URL = BASE_URL + "/submitJob?"
 JOB_URL = BASE_URL + "/jobs/"
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 @define

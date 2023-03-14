@@ -9,7 +9,24 @@ from landfire.product.models import PRODUCTS, Product
 
 @define
 class ProductSearch:
-    """Facilitates the search of possible LANDFIRE products to download."""
+    """Search object to find available LANDFIRE products given a particular combination of names, product codes, themes, versions, and regions.
+
+    Call get_products() or get_layers() to get search output depending on your needs. Passing no arguments to this class will result in no actual searching and methods called on this object will return all products/layers.
+
+    Args:
+        names: Product names.
+        codes: Product codes.
+        themes: Product themes. See ProductTheme enum.
+        versions: Product versions. See ProductVersion enum.
+        regions: Product regions. See ProductRegion enum.
+
+    """
+
+    names: Optional[List[str]] = field(kw_only=True, default=None)
+    codes: Optional[List[str]] = field(kw_only=True, default=None)
+    themes: Optional[List[ProductTheme]] = field(kw_only=True, default=None)
+    versions: Optional[List[ProductVersion]] = field(kw_only=True, default=None)
+    regions: Optional[List[ProductRegion]] = field(kw_only=True, default=None)
 
     _products: List[Product] = field(default=PRODUCTS, init=False)
 
@@ -119,61 +136,31 @@ class ProductSearch:
 
         return self._products
 
-    def get_products(
-        self,
-        *,
-        names: Optional[List[str]] = None,
-        codes: Optional[List[str]] = None,
-        themes: Optional[List[ProductTheme]] = None,
-        versions: Optional[List[ProductVersion]] = None,
-        regions: Optional[List[ProductRegion]] = None,
-    ) -> List[Product]:
-        """Get products for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in no actual searching and returns the full list of products.
-
-        Args:
-            names: Product names.
-            codes: Product codes.
-            themes: Product themes. See ProductTheme enum.
-            versions: Product versions. See ProductVersion enum.
-            regions: Product regions. See ProductRegion enum.
+    def get_products(self) -> List[Product]:
+        """Get a list of matching Products from ProductSearch.
 
         Returns:
             List of Products.
         """
         return self.__query(
-            names=names,
-            codes=codes,
-            themes=themes,
-            versions=versions,
-            regions=regions,
+            names=self.names,
+            codes=self.codes,
+            themes=self.themes,
+            versions=self.versions,
+            regions=self.regions,
         )
 
-    def get_layers(
-        self,
-        *,
-        names: Optional[List[str]] = None,
-        codes: Optional[List[str]] = None,
-        themes: Optional[List[ProductTheme]] = None,
-        versions: Optional[List[ProductVersion]] = None,
-        regions: Optional[List[ProductRegion]] = None,
-    ) -> List[str]:
-        """Get layers for a particular combination of names, product codes, themes, versions, and regions. Passing no arguments results in no actual searching and returns the full list of product layers.
-
-        Args:
-            names: Product names.
-            codes: Product codes.
-            themes: Product themes. See ProductTheme enum.
-            versions: Product versions. See ProductVersion enum.
-            regions: Product regions. See ProductRegion enum.
+    def get_layers(self) -> List[str]:
+        """Get a list of matching layers from ProductSearch.
 
         Returns:
             List of product layers.
         """
         products = self.__query(
-            names=names,
-            codes=codes,
-            themes=themes,
-            versions=versions,
-            regions=regions,
+            names=self.names,
+            codes=self.codes,
+            themes=self.themes,
+            versions=self.versions,
+            regions=self.regions,
         )
         return self.__get_layers(products)
