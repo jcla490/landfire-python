@@ -23,7 +23,7 @@
 
 ## Features
 
-`landfire-python` is a wrapper around the [LANDFIRE][landfire] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci][firesci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community! 🔥
+`landfire-python` is a wrapper around the [LANDFIRE][landfire] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci][firesci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
 
 [landfire]: https://landfire.gov/index.php
 [firesci]: https://firesci.io/
@@ -104,7 +104,7 @@ Please see the [documentation][documentation] for further information on possibl
 
 ## Contributing
 
-Contributions are very welcome! 🙏 To learn more, see the [contributor guide][contributor guide].
+Contributions are very welcome! To learn more, see the [contributor guide][contributor guide].
 
 [contributor guide]: https://landfire-python.firesci.io/en/latest/contributing.html
 
@@ -116,7 +116,7 @@ Distributed under the terms of the [MIT license][license], landfire-python is fr
 
 ## Issues
 
-If you encounter any problems, please [file an issue][file an issue] along with a detailed description! 🙌
+If you encounter any problems, please [file an issue][file an issue] along with a detailed description!
 
 [file an issue]: https://github.com/FireSci/landfire-python/issues
 
