@@ -92,7 +92,7 @@ We provide some functionality to make it easier to obtain the bounding box neces
 
 ### Obtaining a Bounding Box from a GeoJSON Polygon
 
-If you're working with GeoJSON data, you can simply pass a GeoJSON polygon object to `get_bbox_from_polygon()`:
+If you're working with GeoJSON data, you can simply pass a GeoJSON polygon object to `get_bbox_from_polygon()`
 
 ```python
 import geojson
