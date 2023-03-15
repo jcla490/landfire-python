@@ -992,7 +992,7 @@ PRODUCTS: List[Product] = [
     ),
     Product(
         name="fuel vegetation type 2020",
-        code="FVC",
+        code="FVT",
         theme=ProductTheme.fuel,
         availability=[
             ProductAvailability(
@@ -1004,7 +1004,7 @@ PRODUCTS: List[Product] = [
     ),
     Product(
         name="fuel vegetation type 2022",
-        code="FVC",
+        code="FVT",
         theme=ProductTheme.fuel,
         availability=[
             ProductAvailability(
@@ -1229,7 +1229,7 @@ PRODUCTS: List[Product] = [
         ],
     ),
     Product(
-        name="existing vegetation cover 2020",
+        name="existing vegetation type 2020",
         code="EVT",
         theme=ProductTheme.vegetation,
         availability=[

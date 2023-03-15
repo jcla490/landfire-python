@@ -74,13 +74,24 @@ class ProductSearch:
         """
         products = []
         for product in self._products:
+            availabilities = []
             for pa in product.availability:
-                if any(v == pa.version for v in versions):
-                    products.append(product)
+                if pa.version in versions:
+                    availabilities.append(pa)
+
+            if availabilities:
+                product = Product(
+                    name=product.name,
+                    code=product.code,
+                    theme=product.theme,
+                    availability=availabilities,
+                )
+                products.append(product)
+
         self._products = products
 
     def _filter_by_region(self, regions: List[ProductRegion]) -> None:
-        """Filter products by product region. Do I like this? No. Does it work? Yes.
+        """Filter products by product region.
 
         Args:
             regions: List of ProductRegions to filter product list by.
@@ -101,7 +112,9 @@ class ProductSearch:
             for pa in product.availability:
                 for layer in pa.layers:
                     layers.append(layer)
-        # Convert to set to remove duplicates (map_zone, disturbances) that are present across each version. Landfire API has no way of specifying which version to use for these.
+        # Convert to set to remove duplicates (map_zone, disturbances) that are
+        # present across each version. Landfire API has no way of specifying
+        # which version to use for these.
         return list(set(layers))
 
     def _query(
