@@ -203,9 +203,7 @@ class Landfire:
             status = submit_job_req["jobStatus"]
 
             pbar.update(25)
-            self._write_status(
-                "Job submitted! Processing layers... ⏱️", pbar, show_status
-            )
+            self._write_status("Job submitted! Processing layers...", pbar, show_status)
 
             job_url = JOB_URL + job_id
             n = 0
@@ -214,7 +212,7 @@ class Landfire:
                 n += 1
                 backoff_sec = backoff_base_value * n
                 self._write_status(
-                    f"Checking status of job again in {backoff_sec} seconds... 💤",
+                    f"Checking status of job again in {backoff_sec} seconds...",
                     pbar,
                     show_status,
                 )
@@ -242,7 +240,7 @@ class Landfire:
 
                         pbar.update(25)
                         self._write_status(
-                            "Job complete! Getting path to .zip file... 🙏",
+                            "Job complete! Getting path to .zip file...",
                             pbar,
                             show_status,
                         )
@@ -255,7 +253,7 @@ class Landfire:
 
                         pbar.update(25)
                         self._write_status(
-                            "Downloading data as .zip file... 🤞",
+                            "Downloading data as .zip file...",
                             pbar,
                             show_status,
                         )
@@ -267,7 +265,7 @@ class Landfire:
 
                         pbar.update(25)
                         self._write_status(
-                            f"Data written successfully to {output_path}! 🎉",
+                            f"Data written successfully to {output_path}!",
                             pbar,
                             show_status,
                         )
