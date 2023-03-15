@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "landfire"
-version = "0.4.3"
+version = "0.5.0"
 description = "Landfire"
 authors = ["FireSci <support@firesci.io>"]
 license = "MIT"

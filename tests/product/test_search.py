@@ -79,7 +79,102 @@ def test_search_products_combination() -> None:
     assert len(products) == 1
 
 
+def test_search_products_combination_get_layers() -> None:
+    """Test ProductSearch.get_layers() filters by several args."""
+    layers = ProductSearch(
+        versions=[ProductVersion.lf_2001],
+        themes=[ProductTheme.fire_regime],
+        codes=["MFRI"],
+        names=["mean fire return interval"],
+    ).get_layers()
+    assert len(layers) == 1
+
+
 def test_search_products_get_layers() -> None:
     """Test ProductSearch.get_layers() returns filtered layers."""
     layers = ProductSearch(names=["disturbance"]).get_layers()
     assert len(layers) == 22
+
+
+def test_search_products_get_layers_2() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.AK],
+        names=["aspect", "elevation", "slope degrees"],
+        versions=[ProductVersion.lf_2020],
+    ).get_layers()
+
+    assert len(layers) == 3
+
+
+def test_search_products_get_layers_3() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.AK, ProductRegion.US],
+        codes=["FVT"],
+        versions=[ProductVersion.lf_2020],
+    ).get_layers()
+
+    assert len(layers) == 1
+
+
+def test_search_products_get_layers_4() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.AK, ProductRegion.US],
+        themes=[ProductTheme.transportation],
+        versions=[ProductVersion.lf_2001],
+    ).get_layers()
+
+    assert len(layers) == 0
+
+
+def test_search_products_get_layers_5() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.AK, ProductRegion.US, ProductRegion.HI],
+        themes=[ProductTheme.transportation],
+        versions=[ProductVersion.lf_2020],
+    ).get_layers()
+
+    assert len(layers) == 1
+
+
+def test_search_products_get_layers_6() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.AK],
+        codes=["CFFDRS"],
+    ).get_layers()
+
+    assert len(layers) == 5
+
+
+def test_search_products_get_layers_7() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.US],
+        codes=["FBFM40"],
+    ).get_layers()
+
+    assert len(layers) == 6
+
+
+def test_search_products_get_layers_8() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        regions=[ProductRegion.US],
+        themes=[ProductTheme.disturbance, ProductTheme.fire_regime],
+        versions=[ProductVersion.lf_2016_remap, ProductVersion.lf_2020],
+    ).get_layers()
+
+    assert len(layers) == 34
+
+
+def test_search_products_get_layers_9() -> None:
+    """Test ProductSearch.get_layers() returns filtered layers."""
+    layers = ProductSearch(
+        themes=[ProductTheme.map_zones],
+    ).get_layers()
+
+    assert len(layers) == 1
