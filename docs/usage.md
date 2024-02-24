@@ -45,14 +45,14 @@ search: List[Product] = ProductSearch(
         versions=[ProductVersion.lf_2020],
         themes=[ProductTheme.vegetation]
 )
-search = search.get_products()
+search_products = search.get_products()
 # ...returns 3 Products
 ```
 
 The result of the example is a list of `Products`. Each `Product` is a [pydantic][pydantic] model and thus its fields can be accessed with dot notation:
 
 ```python
-for product in search: print(product.name)
+for product in search_products: print(product.name)
 # existing vegetation cover 2022
 # existing vegetation height 2022
 # existing vegetation type 2020
@@ -62,7 +62,7 @@ Each `Product` also has a list of `Availability` models that provides informatio
 
 ```python
 # Grab the first product (existing vegetation cover 2022), and first availability object (LANDFIRE 2020):
-search[0].availability[0]
+search_products[0].availability[0]
 # ...returns
 # ProductAvailability(version=<ProductVersion.lf_2020: '2.2.0'>,
 #                     regions=[<ProductRegion.US: 'US'>,
