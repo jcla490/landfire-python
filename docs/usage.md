@@ -37,6 +37,8 @@ There are many datasets available from LANDFIRE across various versions, regions
 An example of a search for fire regime products for Alaska from LANDFIRE 2020 (v2.2.0) is found below. We call `get_products()` on the `ProductSearch` to return a list of `Products`. If you just want the layers without any of the information about the `Product`, use `get_layers()`.
 
 ```python
+from typing import List
+from landfire.product.models import Product
 from landfire.product.search import ProductSearch
 from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
 
