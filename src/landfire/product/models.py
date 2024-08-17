@@ -2,6 +2,7 @@
 
 Adopted from https://lfps.usgs.gov/helpdocs/productstable.html.
 """
+
 from typing import List
 
 from pydantic import BaseModel

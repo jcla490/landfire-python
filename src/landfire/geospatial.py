@@ -1,4 +1,5 @@
 """Landfire geospatial utilities. These exist for user convenience."""
+
 from enum import Enum
 from pathlib import Path
 from typing import Optional

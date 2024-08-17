@@ -1,4 +1,5 @@
 """ProductSearch tests."""
+
 from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
 from landfire.product.search import ProductSearch
 

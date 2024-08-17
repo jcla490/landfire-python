@@ -53,7 +53,7 @@
 
 ## Requirements
 
-- python >=3.8, <3.12
+- python >=3.9, <=3.12
 - [attrs][attrs], [pydantic][pydantic], and [requests][requests] will be installed when you install the lib
 - Optional dependencies included in the `geospatial` extra are [fiona][fiona], [geojson][geojson] and [geopandas][geopandas]
 

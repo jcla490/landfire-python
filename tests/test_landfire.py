@@ -1,4 +1,5 @@
 """Test suite for the landfire package."""
+
 import tempfile
 from typing import Any, Dict, Iterator
 from unittest import mock

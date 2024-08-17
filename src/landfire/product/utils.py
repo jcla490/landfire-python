@@ -1,4 +1,5 @@
 """Product utilities. Mostly for user convenience."""
+
 from typing import Dict, List
 
 from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion

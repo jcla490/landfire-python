@@ -1,4 +1,5 @@
 """Search class for obtaining product information."""
+
 from typing import List, Optional
 
 from attr import define, field

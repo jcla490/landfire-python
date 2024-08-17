@@ -1,4 +1,5 @@
 """Product utilities tests."""
+
 from landfire.product.utils import (
     get_product_codes,
     get_product_names,

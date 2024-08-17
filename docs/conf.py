@@ -1,4 +1,5 @@
 """Sphinx configuration."""
+
 project = "landfire-python"
 author = "FireSci"
 copyright = "2023, FireSci"
