@@ -9,7 +9,6 @@ from textwrap import dedent
 
 import nox
 
-
 try:
     from nox_poetry import Session, session
 except ImportError:
@@ -143,7 +142,13 @@ def safety(session: Session) -> None:
     """Scan dependencies for insecure packages."""
     requirements = session.poetry.export_requirements()
     session.install("safety")
-    session.run("safety", "check", "--full-report", f"--file={requirements}")
+    session.run(
+        "safety",
+        "check",
+        "-i 70612",  # ignore due to jinja2 vulnerability up for debate
+        "--full-report",
+        f"--file={requirements}",
+    )
 
 
 @session(python=python_versions)

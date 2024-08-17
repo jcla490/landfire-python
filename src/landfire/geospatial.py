@@ -6,7 +6,6 @@ from typing import Optional
 
 from fiona.errors import DriverError
 
-
 try:
     import geojson
     import geopandas as gpd
@@ -88,7 +87,7 @@ def get_bbox_from_file(
             gdf: gpd.GeoDataFrame = gpd.read_file(fpath, driver=driver)
         except DriverError:
             raise DriverError(
-                f"Unable to read file with driver `{driver}`. Are you sure this is the correct driver for this file?"
+                f"Unable to read file with driver `{driver.value}`. Are you sure this is the correct driver for this file?"
             )
     else:
         # Try to infer driver

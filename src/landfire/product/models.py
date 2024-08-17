@@ -5,7 +5,7 @@ Adopted from https://lfps.usgs.gov/helpdocs/productstable.html.
 
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from landfire.product.enums import ProductRegion, ProductTheme, ProductVersion
 
@@ -19,14 +19,11 @@ class ProductAvailability(BaseModel):
         layers: list of product layers available.
     """
 
+    model_config = ConfigDict(frozen=True)
+
     version: ProductVersion
     regions: List[ProductRegion]
     layers: List[str]
-
-    class Config:
-        """Pydantic model config."""
-
-        allow_mutation = False
 
 
 class Product(BaseModel):
@@ -39,15 +36,12 @@ class Product(BaseModel):
         availability: list of ProductAvailability models containing information on versions and regions available.
     """
 
+    model_config = ConfigDict(frozen=True)
+
     name: str
     code: str
     theme: ProductTheme
     availability: List[ProductAvailability]
-
-    class Config:
-        """Pydantic model config."""
-
-        allow_mutation = False
 
 
 PRODUCTS: List[Product] = [
@@ -59,142 +53,27 @@ PRODUCTS: List[Product] = [
             ProductAvailability(
                 version=ProductVersion.lf_2001,
                 regions=[ProductRegion.US, ProductRegion.AK],
-                layers=[
-                    "DIST1999",
-                    "DIST2000",
-                    "DIST2001",
-                    "DIST2002",
-                    "DIST2003",
-                    "DIST2004",
-                    "DIST2005",
-                    "DIST2006",
-                    "DIST2007",
-                    "DIST2008",
-                    "DIST2009",
-                    "DIST2010",
-                    "DIST2011",
-                    "DIST2012",
-                    "DIST2013",
-                    "DIST2014",
-                    "DIST2015",
-                    "DIST2016",
-                    "DIST2017",
-                    "DIST2018",
-                    "DIST2019",
-                    "DIST2020",
-                ],
+                layers=[f"DIST{year}" for year in range(1999, 2021)],
             ),
             ProductAvailability(
                 version=ProductVersion.lf_2012,
                 regions=[ProductRegion.US, ProductRegion.AK, ProductRegion.HI],
-                layers=[
-                    "DIST1999",
-                    "DIST2000",
-                    "DIST2001",
-                    "DIST2002",
-                    "DIST2003",
-                    "DIST2004",
-                    "DIST2005",
-                    "DIST2006",
-                    "DIST2007",
-                    "DIST2008",
-                    "DIST2009",
-                    "DIST2010",
-                    "DIST2011",
-                    "DIST2012",
-                    "DIST2013",
-                    "DIST2014",
-                    "DIST2015",
-                    "DIST2016",
-                    "DIST2017",
-                    "DIST2018",
-                    "DIST2019",
-                    "DIST2020",
-                ],
+                layers=[f"DIST{year}" for year in range(1999, 2021)],
             ),
             ProductAvailability(
                 version=ProductVersion.lf_2014,
                 regions=[ProductRegion.US, ProductRegion.AK, ProductRegion.HI],
-                layers=[
-                    "DIST1999",
-                    "DIST2000",
-                    "DIST2001",
-                    "DIST2002",
-                    "DIST2003",
-                    "DIST2004",
-                    "DIST2005",
-                    "DIST2006",
-                    "DIST2007",
-                    "DIST2008",
-                    "DIST2009",
-                    "DIST2010",
-                    "DIST2011",
-                    "DIST2012",
-                    "DIST2013",
-                    "DIST2014",
-                    "DIST2015",
-                    "DIST2016",
-                    "DIST2017",
-                    "DIST2018",
-                    "DIST2019",
-                    "DIST2020",
-                ],
+                layers=[f"DIST{year}" for year in range(1999, 2021)],
             ),
             ProductAvailability(
                 version=ProductVersion.lf_2016_remap,
                 regions=[ProductRegion.US, ProductRegion.AK, ProductRegion.HI],
-                layers=[
-                    "DIST1999",
-                    "DIST2000",
-                    "DIST2001",
-                    "DIST2002",
-                    "DIST2003",
-                    "DIST2004",
-                    "DIST2005",
-                    "DIST2006",
-                    "DIST2007",
-                    "DIST2008",
-                    "DIST2009",
-                    "DIST2010",
-                    "DIST2011",
-                    "DIST2012",
-                    "DIST2013",
-                    "DIST2014",
-                    "DIST2015",
-                    "DIST2016",
-                    "DIST2017",
-                    "DIST2018",
-                    "DIST2019",
-                    "DIST2020",
-                ],
+                layers=[f"DIST{year}" for year in range(1999, 2021)],
             ),
             ProductAvailability(
                 version=ProductVersion.lf_2020,
                 regions=[ProductRegion.US, ProductRegion.AK, ProductRegion.HI],
-                layers=[
-                    "DIST1999",
-                    "DIST2000",
-                    "DIST2001",
-                    "DIST2002",
-                    "DIST2003",
-                    "DIST2004",
-                    "DIST2005",
-                    "DIST2006",
-                    "DIST2007",
-                    "DIST2008",
-                    "DIST2009",
-                    "DIST2010",
-                    "DIST2011",
-                    "DIST2012",
-                    "DIST2013",
-                    "DIST2014",
-                    "DIST2015",
-                    "DIST2016",
-                    "DIST2017",
-                    "DIST2018",
-                    "DIST2019",
-                    "DIST2020",
-                ],
+                layers=[f"DIST{year}" for year in range(1999, 2021)],
             ),
         ],
     ),
