@@ -21,6 +21,11 @@
 [pre-commit]: https://github.com/pre-commit/pre-commit
 [black]: https://github.com/psf/black
 
+# LOOKING FOR MAINTAINERS
+Please see [this solicitation][issue] for more information. Note, this library likely does not work until I can get to fixing it or someone else does, my apologies. 
+
+[issue]: https://github.com/jcla490/landfire-python/issues/127
+
 ## Features
 
 `landfire-python` is a wrapper around the [LANDFIRE][landfire] Products Service API, allowing users to obtain any of the available LANDFIRE data layers with just a few lines of code. This library was initially built to faciliate automated data ingest for wildfire modeling and analysis internally at [FireSci][firesci]. However, we're happy to open-source and maintain this tool to enable broader user of LANDFIRE data across the wildfire community!
